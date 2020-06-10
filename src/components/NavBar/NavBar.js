@@ -14,7 +14,7 @@ const NavBar = () => {
                     <Nav.Link href="/">Place Start !</Nav.Link>
                     <Nav.Link href="/">Place Target !</Nav.Link>
                     <NavDropdown title="Path Finding Algorithms" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="/">Algo1</NavDropdown.Item>
+                        <NavDropdown.Item href="/PathGrid/PathGrid">Algo1</NavDropdown.Item>
                         <NavDropdown.Item href="/">Algo2</NavDropdown.Item>
                         <NavDropdown.Item href="/">Algo3</NavDropdown.Item>
                         <NavDropdown.Item href="/">Algo4</NavDropdown.Item>
@@ -32,7 +32,5 @@ const NavBar = () => {
         </Navbar>
     );
 }
-
-
 
 export default NavBar
