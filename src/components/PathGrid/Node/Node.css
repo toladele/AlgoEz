@@ -12,5 +12,8 @@
   .start-node {
     background-color: green;
   }
-   
+  
+  .visited-node {
+    background-color: blue;
+  }
   
