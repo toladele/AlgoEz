@@ -109,14 +109,17 @@ class BarSort extends React.Component {
                 <Card.Body>
                     <Form>
                         <Form.Group controlId="barQty">
-                            <Form.Label>How many Bars</Form.Label>
+                            <Form.Label>How many bars would you like to sort?</Form.Label>
                             <div className="controlArea">
-                                <p className="rangeText">5</p>                            
-                                <Form.Control ref={this.state.inputQty} className="rangeControl"type="range" min="5" max="100" step="1"/>                            
-                                <p className="rangeText">100</p> 
-                                <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
-                                <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
-                                <Button onClick={this.sort.bind(this)}>Sort</Button>
+                                <center>
+                                    <p className="rangeText">5</p>                            
+                                    <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1"/>                            
+                                    <p className="rangeText">100</p> 
+                                    <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
+                                    <br />
+                                    <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button> 
+                                    <Button onClick={this.sort.bind(this)}>Sort</Button>
+                                </center>
                             </div>                            
                             
                             
