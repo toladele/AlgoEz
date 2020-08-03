@@ -13,7 +13,8 @@ class BarSort extends React.Component {
             count: 0,
             max: props.max,
             values: [],
-            active: false
+            active: false,
+            bars: []
         }
 
     }
@@ -22,26 +23,82 @@ class BarSort extends React.Component {
         this.setState({
             values: [],
             active: true,
-            count: 0
-        })
+            count: 0,
+            bars: []
+        });
         var valList = [];
+        var barList = [];
         for (let i=0; i<barCount;i++){
-            valList.push(Math.floor(Math.random() * Math.floor(this.state.max)));
+            var newBar = {};
+            var randomNum = Math.floor(Math.random() * Math.floor(this.state.max));
+            while (valList.includes(randomNum)) {
+                randomNum = Math.floor(Math.random() * Math.floor(this.state.max));
+            }
+            newBar.value = randomNum;
+            newBar.action = 0;
+            valList.push(randomNum);
+            barList.push(newBar);
         }
         this.setState({
             values: valList,
-            count: barCount
+            count: barCount,
+            bars: barList
         });
 
     }
+
+    clear() {
+        this.setState({
+            values: [],
+            count: 0,
+            bars: []
+        });
+    }
+    sorter(a,b) {
+        if (a < b) {
+            return -1;
+        }
+        if (a > b) {
+            return 1;
+        }
+        return 0;
+    }
+    sort() {
+        var that = this;
+        var array = this.state.bars;
+        for (let i=0; i<this.state.count; i++){
+            for (let j=0; j<this.state.count-i-1; j++){
+                if (array[j].value > array[j+1].value) {
+                    //console.log("THIS");
+                    
+                    
+                    //console.log(array[j].action);
+                    
+                    [array[j].value, array[j+1].value] = [array[j+1].value, array[j].value];
+                    setTimeout(() => {
+                        //console.log(array);
+                        
+                        array[j].action = 1;
+                        array[j+1].action = 1;
+                        that.setState({bars: array});}, 40*i);
+                }
+            }
+        }
+    }
+    one() {
+        return new Promise(resolve => {
+          console.log("one");
+          resolve();
+        });
+    }
     render(){
 
-        var width = 90.0/this.state.count;
-        var margin = 5.0/this.state.count;
+        var width = 92.0/this.state.count;
+        var margin = 4.0/this.state.count;
 
         
-        const barList = this.state.values.map((val) =>
-                    <Bar value={val} barWidth={width} barMargin={margin}/> 
+        const barList = this.state.bars.map((bar) =>
+                    <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action}/> 
                 
             
         );
@@ -58,6 +115,8 @@ class BarSort extends React.Component {
                                 <Form.Control ref={this.state.inputQty} className="rangeControl"type="range" min="5" max="100" step="1"/>                            
                                 <p className="rangeText">100</p> 
                                 <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
+                                <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
+                                <Button onClick={this.sort.bind(this)}>Sort</Button>
                             </div>                            
                             
                             
