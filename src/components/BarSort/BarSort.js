@@ -63,7 +63,7 @@ class BarSort extends React.Component {
         }
         return 0;
     }
-    sort() {
+    bubble_sort() {
         var that = this;
         var array = this.state.bars;
         for (let i=0; i<this.state.count; i++){
@@ -118,7 +118,7 @@ class BarSort extends React.Component {
                                     <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
                                     <br />
                                     <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button> 
-                                    <Button onClick={this.sort.bind(this)}>Sort</Button>
+                                    <Button onClick={this.bubble_sort.bind(this)}>Sort</Button>
                                 </center>
                             </div>                            
                             
