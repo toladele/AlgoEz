@@ -11,14 +11,31 @@ class Bar extends React.Component {
         this.state = {
             value: props.value,
             barWidth: props.barWidth,
-            barMargin: props.barMargin
+            barMargin: props.barMargin,
+            action: props.action
+        }
+    }
+    componentDidUpdate(prevProps) {
+        if (prevProps.action !== this.props.action){
+            this.setState({
+                action: this.props.action
+            });
         }
     }
     render(){
+        var colour;
+        //console.log(this.state.action);
+        if (this.state.action === 0) {
+            colour = "green";
+        }
+        else if (this.state.action === 1){
+            colour = "purple";
+        }
         const height = {
             height: Math.round(this.state.value/10) + '%',
             width: this.state.barWidth +'%',
-            margin: this.state.barMargin + '%'
+            margin: this.state.barMargin + '%',
+            background: colour
         }
         return (
             <div className='bar' style={height}>
