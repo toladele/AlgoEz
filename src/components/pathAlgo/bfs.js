@@ -37,17 +37,17 @@ export default function bfs(grid, startNode, finishNode) {
         }
 
 
-        for (const node1 of unvisitedNodes) {
+        for (var node1 of unvisitedNodes) {
             for (let i = 0; i < 4; i++) {
                 var r = currentNode.row + dr[i];
                 var c = currentNode.col + dc[i];
 
-                if (0 < r < gridRow && 0 < c < gridCol) {
+                if ((0 < r < gridRow) && (0 < c < gridCol)) {
                     if (node1.row === r) {
                         if (node1.col === c) {
-                            if (!visited.includes(node1)) {
-                                neighbors.push(node1);
-                            }
+                            // if (!visited.includes(node1)) {
+                            neighbors.push(node1);
+                            // }
                         }
                     }
                 }
