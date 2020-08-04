@@ -191,7 +191,7 @@ class BarSort extends React.Component {
             barStates = this.bubbleSort();
         }
         else if (algo === 'merge') {
-            barStates = this.bubbleSort();
+            barStates = this.visualizeMergeSort();
         }
         else if (algo === 'quick') {
             this.visualizeQuickSort();
@@ -259,6 +259,7 @@ class BarSort extends React.Component {
             //recursive call
         }
     }
+ 
 
     partition(array, left, right) {
         var pivot = array[Math.floor((right + left) / 2)].value, //middle element
@@ -285,7 +286,7 @@ class BarSort extends React.Component {
             stateArray : [],
         });
         var currentArray = JSON.parse(JSON.stringify(this.state.bars));
-        var final = this.quickSort(currentArray, 0, currentArray.length-1);
+        this.quickSort(currentArray, 0, currentArray.length-1);
         var speed = this.state.speed.current.value;
         var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
         var currentAction = this.state.actionCount;
