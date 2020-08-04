@@ -50,17 +50,19 @@ export default class PathGrid extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
+    var algo = this.state.currentAlgo;
     var visitedNodesInOrder;
-    if (this.currentAlgo === 'greedy') {
+    console.log(algo);
+    if (algo === 'greedy') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
-    else if (this.currentAlgo === 'dijkstra') {
+    else if (algo === 'dijkstra') {
       visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     }
-    else if (this.currentAlgo === 'dfs') {
+    else if (algo === 'dfs') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
-    else if (this.currentAlgo === 'a') {
+    else if (algo === 'a') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
     else { //bfs
@@ -89,9 +91,29 @@ export default class PathGrid extends Component {
     }
   }
 
-  setAlgo(type) {
+setBfs() {
     this.setState({
-        currentAlgo: type,
+        currentAlgo: 'bfs',
+    });
+}
+setDijk() {
+    this.setState({
+        currentAlgo: 'dijkstra',
+    });
+}
+setDfs() {
+    this.setState({
+        currentAlgo: 'dfs',
+    });
+}
+setGreedy() {
+    this.setState({
+        currentAlgo: 'greedy',
+    });
+}
+setAstar() {
+    this.setState({
+        currentAlgo: 'a',
     });
 }
 
@@ -104,11 +126,11 @@ export default class PathGrid extends Component {
     return (
       <>
         <center>
-          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('bfs')}>B F S</Button>
-          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('dijkstra')} >D I J K S T R A</Button>                    
-          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('dfs')}>D F S</Button>
-          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('greedy')} >G R E E D Y</Button>                    
-          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('a')}>A*</Button>
+          <Button className= "algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
+          <Button className= "algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>                    
+          <Button className= "algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
+          <Button className= "algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>                    
+          <Button className= "algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button>
           <br/>
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
