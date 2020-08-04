@@ -26,10 +26,10 @@ class Bar extends React.Component {
         var colour;
         //console.log(this.state.action);
         if (this.state.action === 0) {
-            colour = "green";
+            colour = "#f2a900";
         }
         else if (this.state.action === 1){
-            colour = "purple";
+            colour = "#330072";
         }
         const height = {
             height: Math.round(this.state.value/10) + '%',

@@ -16,7 +16,8 @@ class BarSort extends React.Component {
             max: props.max,
             values: [],
             active: false,
-            bars: []
+            bars: [],
+            speed: React.createRef()
         }
 
     }
@@ -76,6 +77,9 @@ class BarSort extends React.Component {
                         currentArray[k].action = 0;
                     }
                     barStates.push(JSON.parse(JSON.stringify(currentArray)));
+                    for (let k = 0; k < j+1; k++){
+                        currentArray[k].action = 0;
+                    }
                     //console.log(currentArray);
                 }
             }
@@ -83,20 +87,22 @@ class BarSort extends React.Component {
         return barStates;
     }
     visualizeSort() {
-        var that = this;
+        var that =this;
         var barStates = this.bubbleSort();
+        var speed = this.state.speed.current.value;
         //console.log(barStates);
-
-
+        
+        
         for (let i = 0; i < barStates.length; i++) {
             console.log("In for");
             setTimeout(() => {
-                that.setState({ bars: barStates[i] });
+                that.setState({bars: barStates[i]});
                 //console.log(barStates[i]);
-              }, 200 * i+1);
+              }, speed * i+1);
         }
-
+        
     }
+
 
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
@@ -179,55 +185,67 @@ class BarSort extends React.Component {
 
 
         render(){
-            var width = 92.0 / this.state.count;
-               var margin = 4.0 / this.state.count;
 
-
+            var width = 92.0/this.state.count;
+            var margin = 4.0/this.state.count;
+    
+            
             const barList = this.state.bars.map((bar) =>
-                <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action} />
+                        <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action}/> 
+                    
+                
             );
             return (
-                    <div className="sortDiv">
-                        <br />
-                        <Card>
-                            <Card.Body>
-                                <Form>
-                                    <Form.Group controlId="barQty">
-                                        <Form.Label>How many bars would you like to sort?</Form.Label>
+                <div className="sortDiv">
+                    <br/>
+                <Card>
+                    <Card.Body>
+                        <Form>
+                            <Form.Group controlId="barQty">
+                                <Form.Label>How many bars would you like to sort?</Form.Label>
+                                <div className="controlArea">
+                                    <center>
+                                        <p className="rangeText">5</p>                            
+                                        <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1"/>                            
+                                        <p className="rangeText">100</p> 
+                                        <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
+                                        <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button> 
+                                        </center>
+                                        
+                                        <Form.Label>Speed</Form.Label>
                                         <div className="controlArea">
                                             <center>
-                                                <p className="rangeText">5</p>
-                                                <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
-                                                <p className="rangeText">100</p>
-                                                <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
-                                                <br />
-                                                <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
-                                                <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
+                                            <p className="rangeText">Slow</p>  
+                                            <Form.Control ref={this.state.speed} className="speedControl" type="range" min="20" max="2000" step="10"/>                            
+                                            <p className="rangeText">Fast</p> 
+                                            <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
                                             </center>
                                         </div>
-
-
-
-                                    </Form.Group>
-                                </Form>
-
-
-                            </Card.Body>
-                        </Card>
-                        <br></br>
-                        <Card>
-                            <Card.Body className='containingCard'>
-                                <div className='barContainer'>
-                                    {barList}
-                                </div>
-                            </Card.Body>
-
-
-                        </Card>
-                    </div>
-
-                )
-            }
+                                    
+                                </div>                            
+                                
+                                
+                                
+                            </Form.Group>
+                        </Form>
+    
+    
+                    </Card.Body>
+                </Card>
+                <br></br>
+                <Card>
+                    <Card.Body className='containingCard'>
+                    <div className='barContainer'>
+                            {barList}
+                        </div>
+                    </Card.Body>
+                   
+                    
+                </Card>
+                </div>
+                
+            )
         }
-
-        export default BarSort;
+    }
+    
+    export default BarSort;

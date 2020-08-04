@@ -49,3 +49,8 @@
     align-content: center;
     margin:auto;
 }
+.speedControl {
+    width: 50%;
+    display: inline-block;
+    direction: rtl;
+}
