@@ -17,6 +17,7 @@ export default class PathGrid extends Component {
     super();
     this.state = {
       grid: [],
+      currentAlgo: 'bfs',
       //onMousePressed: false,
     };
   }
@@ -73,6 +74,13 @@ export default class PathGrid extends Component {
     }
   }
 
+  setAlgo(type) {
+    this.setState({
+        currentAlgo: type,
+    });
+}
+
+
   render() {
     const { grid,
       //onMousePressed 
@@ -81,6 +89,12 @@ export default class PathGrid extends Component {
     return (
       <>
         <center>
+          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('bfs')}>B F S</Button>
+          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('dijkstra')} >D I J K S T R A</Button>                    
+          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('dfs')}>D F S</Button>
+          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('greedy')} >G R E E D Y</Button>                    
+          <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('a')}>A*</Button>
+          <br/>
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
           </Button>

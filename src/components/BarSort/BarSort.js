@@ -94,7 +94,8 @@ class BarSort extends React.Component {
             barStates = this.bubbleSort();
         }
         else if (this.currentAlgo === 'quick') {
-            barStates = this.visualizeQuickSort();
+            this.visualizeQuickSort();
+            return;
         }
         else if (this.currentAlgo === 'heap') {
             barStates = this.bubbleSort();
