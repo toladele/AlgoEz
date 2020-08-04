@@ -46,8 +46,9 @@ export default class PathGrid extends Component {
       }, 40 * i);
     }
     */
+   var currentAction = this.state.actionCount;
    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-    var currentAction = this.state.actionCount;
+    
     setTimeout(() => {
       if (currentAction > this.state.clearedActions){
         const node = visitedNodesInOrder[i];
@@ -64,6 +65,7 @@ export default class PathGrid extends Component {
     // grid, startnode, finishnode 
 
     const { grid } = this.state;
+    // eslint-disable-next-line
     this.state.actionCount++;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
@@ -77,7 +79,7 @@ export default class PathGrid extends Component {
       visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     }
     else if (algo === 'dfs') {
-      visitedNodesInOrder = bfs(grid, startNode, finishNode);
+      visitedNodesInOrder = dfs(grid, startNode, finishNode);
     }
     else if (algo === 'a') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
