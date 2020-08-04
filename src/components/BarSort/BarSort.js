@@ -17,7 +17,9 @@ class BarSort extends React.Component {
             bars: [],
             speed: React.createRef(),
             currentAlgo: 'quick',
-            stateArray: []
+            stateArray: [],
+            actionCount: 0,
+            clearedActions: 0
         }
     }
 
@@ -26,7 +28,8 @@ class BarSort extends React.Component {
         this.setState({
             active: true,
             count: 0,
-            bars: []
+            bars: [],
+            clear: false
         });
         var barList = [];
         var valList = [];
@@ -50,9 +53,12 @@ class BarSort extends React.Component {
 
     clear() {
         this.setState({
-            count: 0,
-            bars: []
+            bars: [],
+            stateArray: [],
+            clear: true,
+            clearedActions: this.state.actionCount
         });
+        console.log(this.state.clearedActions);
     }
 
     bubbleSort() {
@@ -175,9 +181,9 @@ class BarSort extends React.Component {
     }
 
     visualizeSort() {
-        var that = this;
         var barStates;
         var algo = this.state.currentAlgo;
+        this.state.actionCount +=1;
         if (algo === 'bubble') {
             barStates = this.bubbleSort();
         }
@@ -198,14 +204,18 @@ class BarSort extends React.Component {
 
         var speed = this.state.speed.current.value;
         //console.log(barStates);
-        
+        var currentAction = JSON.parse(JSON.stringify(this.state.actionCount));
         for (let i = 0; i < barStates.length; i++) {
             //console.log("In for");
             setTimeout(() => {
-                that.setState({bars: barStates[i]});
+                if (currentAction > this.state.clearedActions) {
+                    this.setState({bars: barStates[i]});
+                }
+                
                 //console.log(barStates[i]);
               }, speed * i+1);
         }
+        
         
     }
 
@@ -232,58 +242,62 @@ class BarSort extends React.Component {
         return arr_final;
     }
 
-        merge_sort(a) {
-            if (a.length <= 1) {
+    merge_sort(a) {
+        if (a.length <= 1) {
 
-                return a;
+            return a;
+        }
+        else {
+            var mid = parseInt(a.length / 2);
+            var arr1 = a.slice(0, mid);
+            var arr2 = a.slice(mid, a.length);
+
+            return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
+            //recursive call
+        }
+    }
+
+    partition(array, left, right) {
+        var pivot = array[Math.floor((right + left) / 2)].value, //middle element
+            i = left, //left pointer
+            j = right; //right pointer
+        while (i <= j) {
+            while (array[i].value < pivot) {
+                i++;
             }
-            else {
-                var mid = parseInt(a.length / 2);
-                var arr1 = a.slice(0, mid);
-                var arr2 = a.slice(mid, a.length);
-
-                return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
-                //recursive call
+            while (array[j].value > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                this.swap(array, i, j); //sawpping two elements
+                i++;
+                j--;
             }
         }
+        return i;
+    }
 
-        partition(array, left, right) {
-            var pivot = array[Math.floor((right + left) / 2)].value, //middle element
-                i = left, //left pointer
-                j = right; //right pointer
-            while (i <= j) {
-                while (array[i].value < pivot) {
-                    i++;
-                }
-                while (array[j].value > pivot) {
-                    j--;
-                }
-                if (i <= j) {
-                    this.swap(array, i, j); //sawpping two elements
-                    i++;
-                    j--;
-                }
-            }
-            return i;
-        }
+    visualizeQuickSort() {
+        this.setState({
+            stateArray : [],
+        });
+        var currentArray = JSON.parse(JSON.stringify(this.state.bars));
+        var final = this.quickSort(currentArray, 0, currentArray.length-1);
 
-        visualizeQuickSort() {
-            this.setState({
-                stateArray : [],
-            });
-            var currentArray = JSON.parse(JSON.stringify(this.state.bars));
-            var final = this.quickSort(currentArray, 0, currentArray.length-1);
-
-            var speed = this.state.speed.current.value;
-            var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
-            for (let i = 0; i < barStates.length; i++) {
-                //console.log("In for");
-                setTimeout(() => {
+        var speed = this.state.speed.current.value;
+        var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
+        var currentAction = this.state.actionCount;
+        for (let i = 0; i < barStates.length; i++) {
+            //console.log("In for");
+            setTimeout(() => {
+                if (currentAction> this.state.clearedActions) {
                     this.setState({bars: barStates[i]});
-                    //console.log(barStates[i]);
-                  }, speed * i+1);
-            }
+                }
+                
+                //console.log(barStates[i]);
+                }, speed * i+1);
         }
+    }
 
     setAlgo(type) {
         this.setState({
@@ -354,7 +368,6 @@ class BarSort extends React.Component {
                                             <Form.Control ref={this.state.speed} className="speedControl" type="range" min="20" max="2000" step="10"/>                            
                                             <p className="rangeText">Fast</p>
                                             <Button className="rangeText" onClick={this.visualizeSort.bind(this)}>Sort</Button>
-                                            {/* <Button className="rangeText" onClick={this.visualizeQuickSort.bind(this)}>Quick Sort</Button> */}
                                             
                                             </center>
                                         </div>
