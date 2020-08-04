@@ -29,29 +29,33 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    /*
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        const newGrid = this.state.grid.slice();
-        const newNode = {
-          ...node,
-          isVisited: true,
-        };
-        newGrid[node.row][node.col] = newNode;
-        this.setState({ grid: newGrid });
-      }, 40 * i);
-    }
-    */
    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-
     setTimeout(() => {
       const node = visitedNodesInOrder[i];
+      if (i%3===0){
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+        'node animate-one-node';
+    } else if (i%3===1) {
       document.getElementById(`node-${node.row}-${node.col}`).className =
-        'node visited-node';
-    }, 20 * i);
+      'node visited-node';
+    } else {
+      document.getElementById(`node-${node.row}-${node.col}`).className =
+      'node animate-two-node';
+    }
+    }, 4 * i);
   }
   }
+
+
+  animateDijkstra(visitedNodesInOrder) {
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+     setTimeout(() => {
+       const node = visitedNodesInOrder[i];
+       document.getElementById(`node-${node.row}-${node.col}`).className =
+       'node visited-node';
+     }, 20 * i);
+   }
+   }
 
 
   visualize() {
@@ -67,18 +71,20 @@ export default class PathGrid extends Component {
     }
     else if (algo === 'dijkstra') {
       visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+      this.animateDijkstra(visitedNodesInOrder);
     }
     else if (algo === 'dfs') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
+      this.animateAlgo(visitedNodesInOrder);
     }
     else if (algo === 'a') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
     else { //bfs
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
+      this.animateAlgo(visitedNodesInOrder);
     }
     console.log(visitedNodesInOrder);
-    this.animateAlgo(visitedNodesInOrder);
   }
 
   clear() {
