@@ -20,6 +20,11 @@ class BarSort extends React.Component {
             currentAlgo: 'quick',
             stateArray: []
         }
+        this.setBubble = this.setBubble.bind(this);
+        this.setBinary = this.setBinary.bind(this);
+        this.setHeap = this.setHeap.bind(this);
+        this.setQuick = this.setQuick.bind(this);
+        this.setMerge = this.setMerge.bind(this);
 
     }
 
@@ -87,20 +92,26 @@ class BarSort extends React.Component {
     visualizeSort() {
         var that = this;
         var barStates;
+        console.log(this.currentAlgo);
         if (this.currentAlgo === 'bubble') {
+            console.log('bubble');
             barStates = this.bubbleSort();
         }
         else if (this.currentAlgo === 'merge') {
+            console.log('merge');
             barStates = this.bubbleSort();
         }
         else if (this.currentAlgo === 'quick') {
+            console.log('quick');
             this.visualizeQuickSort();
             return;
         }
         else if (this.currentAlgo === 'heap') {
+            console.log('heap');
             barStates = this.bubbleSort();
         }
         else { //binary
+            console.log('binary');
             barStates = this.bubbleSort();
         }
 
@@ -201,9 +212,29 @@ class BarSort extends React.Component {
             }
         }
 
-    setAlgo(type) {
+    setBubble() {
         this.setState({
-            currentAlgo: type,
+            currentAlgo: 'bubble',
+        });
+    }
+    setQuick() {
+        this.setState({
+            currentAlgo: 'quick',
+        });
+    }
+    setMerge() {
+        this.setState({
+            currentAlgo: 'merge',
+        });
+    }
+    setHeap() {
+        this.setState({
+            currentAlgo: 'heap',
+        });
+    }
+    setBinary() {
+        this.setState({
+            currentAlgo: 'binary',
         });
     }
 
@@ -243,11 +274,11 @@ class BarSort extends React.Component {
             return (
                 <div className="sortDiv">
                 <center>
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('quick')}>Q U I C K</Button>
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('merge')} >M E R G E</Button>                    
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('heap')}>H E A P</Button>
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('bubble')} >B U B B L E</Button>                    
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('binary')}>B I N A R Y</Button>
+                    <Button className= "algoButton" variant="dark" onClick={this.setQuick.bind(this)}>Q U I C K</Button>
+                    <Button className= "algoButton" variant="dark" onClick={this.setMerge.bind(this)} >M E R G E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={this.setHeap.bind(this)}>H E A P</Button>
+                    <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={this.setBinary.bind(this)}>B I N A R Y</Button>
                 </center>
                     <br/>
                 <Card>
