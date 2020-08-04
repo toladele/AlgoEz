@@ -19,6 +19,8 @@ export default class PathGrid extends Component {
     this.state = {
       grid: [],
       currentAlgo: 'bfs',
+      actionCount: 0,
+      clearedActions: 0
       //onMousePressed: false,
     };
   }
@@ -44,12 +46,16 @@ export default class PathGrid extends Component {
       }, 40 * i);
     }
     */
+    var currentAction = this.state.actionCount;
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
 
       setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-          'node visited-node';
+        if (currentAction > this.state.clearedActions) {
+          const node = visitedNodesInOrder[i];
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node visited-node';
+        }
+
       }, 20 * i);
     }
   }
@@ -57,7 +63,10 @@ export default class PathGrid extends Component {
 
   visualize() {
     // grid, startnode, finishnode 
+
     const { grid } = this.state;
+    // eslint-disable-next-line
+    this.state.actionCount++;
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
@@ -84,7 +93,10 @@ export default class PathGrid extends Component {
 
   clear() {
     const clearGrid = getStartGrid();
-    this.setState({ grid: clearGrid });
+    this.setState({
+      grid: clearGrid,
+      clearedActions: this.state.actionCount
+    });
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 45; col++) {
         if (row === START_NODE_ROW && col === START_NODE_COL) {
