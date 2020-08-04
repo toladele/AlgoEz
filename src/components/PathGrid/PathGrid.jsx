@@ -50,7 +50,22 @@ export default class PathGrid extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    var visitedNodesInOrder;
+    if (this.currentAlgo === 'greedy') {
+      visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    }
+    else if (this.currentAlgo === 'dijkstra') {
+      visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+    }
+    else if (this.currentAlgo === 'dfs') {
+      visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    }
+    else if (this.currentAlgo === 'a') {
+      visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    }
+    else { //bfs
+      visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    }
     console.log(visitedNodesInOrder);
     this.animateAlgo(visitedNodesInOrder);
   }
