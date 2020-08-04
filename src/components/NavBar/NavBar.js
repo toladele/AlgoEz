@@ -6,7 +6,7 @@ import { NavDropdown, Navbar, Nav } from 'react-bootstrap';
 
 const NavBar = () => {
     return (
-        <Navbar bg="primary" variant="dark">
+        <Navbar bg="dark" variant="dark">
             <Navbar.Brand>Algo-Easy</Navbar.Brand>
             <Navbar.Toggle />
             <Navbar.Collapse className="justify-content-end">
