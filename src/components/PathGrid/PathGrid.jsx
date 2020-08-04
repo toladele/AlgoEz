@@ -7,12 +7,6 @@ import bfs from '../pathAlgo/bfs';
 import dfs from '../pathAlgo/dfs';
 import Button from 'react-bootstrap/Button';
 
-
-const START_NODE_ROW = 10;
-const START_NODE_COL = 20;
-const FINISH_NODE_ROW = 10;
-const FINISH_NODE_COL = 30;
-
 export default class PathGrid extends Component {
   constructor() {
     super();
@@ -20,7 +14,12 @@ export default class PathGrid extends Component {
       grid: [],
       currentAlgo: 'bfs',
       actionCount: 0,
-      clearedActions: 0
+      clearedActions: 0,
+      isStartNode: true,
+      start_node_row: 10,
+      start_node_col: 20,
+      finish_node_row: 10,
+      finish_node_col: 30
       //onMousePressed: false,
     };
   }
@@ -67,8 +66,8 @@ export default class PathGrid extends Component {
     const { grid } = this.state;
     // eslint-disable-next-line
     this.state.actionCount++;
-    const startNode = grid[START_NODE_ROW][START_NODE_COL];
-    const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+    const startNode = grid[this.this.state.start_node_row][this.this.state.start_node_col];
+    const finishNode = grid[this.this.state.finish_node_row][this.this.state.finish_node_col];
     //call the dikes algorithm 
     var algo = this.state.currentAlgo;
     var visitedNodesInOrder;
@@ -99,10 +98,10 @@ export default class PathGrid extends Component {
      });
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 45; col++) {
-        if (row === START_NODE_ROW && col === START_NODE_COL) {
+        if (row === this.this.state.start_node_row && col === this.this.state.start_node_col) {
           document.getElementById(`node-${row}-${col}`).className =
             'node start-node';
-        } else if (row === FINISH_NODE_ROW && col === FINISH_NODE_COL) {
+        } else if (row === this.this.state.finish_node_row && col === this.this.state.finish_node_col) {
           document.getElementById(`node-${row}-${col}`).className =
             'node finish-node';
         } else {
@@ -139,6 +138,11 @@ export default class PathGrid extends Component {
     });
   }
 
+  handleMouseDown(row, col) {
+    console.log("Row:", row)
+    console.log("Column:", col)
+  }
+
 
   render() {
     const { grid,
@@ -151,8 +155,8 @@ export default class PathGrid extends Component {
           <Button className="algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
-          <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>
-          <Button className="algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button>
+          {/* <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button> */}
           <br />
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
@@ -180,9 +184,8 @@ export default class PathGrid extends Component {
                         isStart={isStart}
                         isVisited={isVisited}
                       // isWall={isWall}
-                      // onMousePressed={onMousePressed}
-                      // onMouseDown={(row, col) => ({})
-                      //   // this.handleMouseDown(row, col)
+                      //  onMousePressed={onMousePressed}
+                        onMouseDown={(row, col) => this.handleMouseDown(row, col)}
                       // }
                       // onMouseEnter={(row, col) => ({})
                       //   //  this.handleMouseEnter(row, col)
@@ -209,8 +212,8 @@ const createNode = (col, row) => {
   return {
     col,
     row,
-    isStart: row === START_NODE_ROW && col === START_NODE_COL,
-    isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
+    isStart: row === this.this.state.start_node_row && col === this.this.state.start_node_col,
+    isFinish: row === this.this.state.finish_node_row && col === this.this.state.finish_node_col,
     distance: Infinity,
     isVisited: false
   };
