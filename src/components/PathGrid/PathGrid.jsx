@@ -3,14 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
 import './PathGrid.css';
 import dijkstra from '../pathAlgo/dijkstra';
-// import bfs from '../pathAlgo/bfs';
+import bfs from '../pathAlgo/bfs';
 import Button from 'react-bootstrap/Button';
 
 
-const START_NODE_ROW = 1;
-const START_NODE_COL = 1;
-const FINISH_NODE_ROW = 5;
-const FINISH_NODE_COL = 5;
+const START_NODE_ROW = 5;
+const START_NODE_COL = 5;
+const FINISH_NODE_ROW = 10;
+const FINISH_NODE_COL = 10;
 
 export default class PathGrid extends Component {
   constructor() {
@@ -49,7 +49,7 @@ export default class PathGrid extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
-    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
     console.log(visitedNodesInOrder);
     this.animateAlgo(visitedNodesInOrder);
   }
@@ -59,15 +59,15 @@ export default class PathGrid extends Component {
     this.setState({ grid: clearGrid });
     for (let row = 0; row < 14; row++) {
       for (let col = 0; col < 14; col++) {
-        if (row === START_NODE_ROW && col === START_NODE_COL){
+        if (row === START_NODE_ROW && col === START_NODE_COL) {
           document.getElementById(`node-${row}-${col}`).className =
-          'node start-node';
-        } else if (row === FINISH_NODE_ROW && col === FINISH_NODE_COL){
+            'node start-node';
+        } else if (row === FINISH_NODE_ROW && col === FINISH_NODE_COL) {
           document.getElementById(`node-${row}-${col}`).className =
-          'node finish-node';
+            'node finish-node';
         } else {
           document.getElementById(`node-${row}-${col}`).className =
-          'node ';
+            'node ';
         }
       }
     }
@@ -93,8 +93,8 @@ export default class PathGrid extends Component {
                 <div key={rowIdx}>
                   {row.map((node, nodeIdx) => {
                     const {
-                      row, 
-                      col, 
+                      row,
+                      col,
                       isFinish, isStart, isVisited
                       //isWall 
                     } = node;
@@ -145,9 +145,9 @@ const createNode = (col, row) => {
 
 const getStartGrid = () => {
   const grid = [];
-  for (let row = 0; row < 10; row++) {
+  for (let row = 0; row < 20; row++) {
     const currentRow = [];
-    for (let col = 0; col < 10; col++) {
+    for (let col = 0; col < 20; col++) {
       currentRow.push(createNode(col, row));
     }
     grid.push(currentRow);
