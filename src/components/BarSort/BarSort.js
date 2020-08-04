@@ -95,48 +95,43 @@ class BarSort extends React.Component {
             }
         }
     }
-<<<<<<< HEAD
-
-
-    swap(array, leftIndex, rightIndex) {
-=======
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
-          while (arr1.length != 0 && arr2.length != 0) {
+        while (arr1.length != 0 && arr2.length != 0) {
 
             if (arr1[0] <= arr2[0]) {
 
-              arr_final.push(arr1[0]);
-              arr1 = arr1.slice(1);
-              //slice to get single elements to compare
+                arr_final.push(arr1[0]);
+                arr1 = arr1.slice(1);
+                //slice to get single elements to compare  
             }
             else {
 
-            arr_final.push(arr2[0]);
-            arr2 = arr2.slice(1)
-             }
+                arr_final.push(arr2[0]);
+                arr2 = arr2.slice(1)
+            }
         }
-          while (arr1.length)
+        while (arr1.length)
             arr_final.push(arr1.shift());
-          while (arr2.length)
+        while (arr2.length)
             arr_final.push(arr2.shift());
-          return arr_final;
-        }
-        merge_sort(a) {
-          if (a.length <= 1) {
+        return arr_final;
+    }
+    merge_sort(a) {
+        if (a.length <= 1) {
 
-            return a; }
-          else {
+            return a;
+        }
+        else {
             var mid = parseInt(a.length / 2);
-            var arr1   = a.slice(0, mid);
-            var arr2  = a.slice(mid, arr.length);
+            var arr1 = a.slice(0, mid);
+            var arr2 = a.slice(mid, arr.length);
 
             return merge_sort_aux(merge_sort(arr1), merge_sort(arr2));
             //recursive call
-          }
         }
-    swap(array, leftIndex, rightIndex){
->>>>>>> 046e3d0057a297c218e8e93f832b119eb90dc039
+    }
+    swap(array, leftIndex, rightIndex) {
         var temp = array[leftIndex];
         array[leftIndex] = array[rightIndex];
         array[rightIndex] = temp;
@@ -178,12 +173,8 @@ class BarSort extends React.Component {
         return array;
     }
 
-<<<<<<< HEAD
-
-=======
 
 
->>>>>>> 046e3d0057a297c218e8e93f832b119eb90dc039
     one() {
         return new Promise(resolve => {
             console.log("one");
