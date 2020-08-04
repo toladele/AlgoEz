@@ -9,12 +9,12 @@ function getAllNodes(grid) {
 }
 
 
-export default function bfs(grid, startNode, finishNode) {
+export default function dfs(grid, startNode, finishNode) {
 
-    var queue = [];
+    var stack = [];
     var visited = [];
 
-    queue.push(startNode);
+    stack.unshift(startNode);
 
     const gridRow = grid.length;
     const gridCol = grid[0].length;
@@ -24,18 +24,16 @@ export default function bfs(grid, startNode, finishNode) {
     const dr = [-1, 1, 0, 0];
     const dc = [0, 0, 1, -1];
 
+    while (stack.length) {
 
-    while (queue.length) {
-
-        var currentNode = queue.shift();
+        var currentNode = stack.pop();
         var neighbors = [];
-        visited.push(currentNode);
 
+        visited.push(currentNode);
 
         if (currentNode === finishNode) {
             return visited;
         }
-
 
         for (var node1 of unvisitedNodes) {
             for (let i = 0; i < 4; i++) {
@@ -56,11 +54,11 @@ export default function bfs(grid, startNode, finishNode) {
         }
 
         for (var neighbor of neighbors) {
-            if (!visited.includes(neighbor)) {
-                queue.push(neighbor);
+            if (visited.includes(neighbor)) {
+                stack.unshift(neighbor);
             }
         }
+
     }
+
 }
-
-
