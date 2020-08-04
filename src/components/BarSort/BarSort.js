@@ -187,7 +187,6 @@ class BarSort extends React.Component {
         this.setState({
             actionCount: count,
         })
-        console.log(algo);
         if (algo === 'bubble') {
             barStates = this.bubbleSort();
         }
