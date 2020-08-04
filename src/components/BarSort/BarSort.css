@@ -6,6 +6,7 @@
     background-color: aqua;
     display: inline-block;
     align-items: center;
+    vertical-align: top;
 }
 .barContainer {
     height: 100%;
