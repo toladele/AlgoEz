@@ -32,20 +32,6 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    /*
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-      setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        const newGrid = this.state.grid.slice();
-        const newNode = {
-          ...node,
-          isVisited: true,
-        };
-        newGrid[node.row][node.col] = newNode;
-        this.setState({ grid: newGrid });
-      }, 40 * i);
-    }
-    */
     var currentAction = this.state.actionCount;
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
 
@@ -57,6 +43,30 @@ export default class PathGrid extends Component {
         }
 
       }, 20 * i);
+    }
+  }
+
+  animateBfs(visitedNodesInOrder) {
+    var currentAction = this.state.actionCount;
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+
+      setTimeout(() => {
+        if (currentAction > this.state.clearedActions) {
+          const node = visitedNodesInOrder[i];
+          if (i%3===0){
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node animate-one-node';
+          }
+          else if (i%3===1){
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node animate-two-node';
+          } else {
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node visited-node';
+          }         
+        }
+
+      }, 4 * i);
     }
   }
 
@@ -88,7 +98,11 @@ export default class PathGrid extends Component {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
     console.log(visitedNodesInOrder);
-    this.animateAlgo(visitedNodesInOrder);
+    if (algo === 'bfs') {
+      this.animateBfs(visitedNodesInOrder);
+    } else {
+      this.animateAlgo(visitedNodesInOrder);
+    }
   }
 
   clear() {
