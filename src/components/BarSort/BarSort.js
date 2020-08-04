@@ -17,7 +17,8 @@ class BarSort extends React.Component {
             values: [],
             active: false,
             bars: [],
-            speed: React.createRef()
+            speed: React.createRef(),
+            currentAlgo: 'quick'
         }
 
     }
@@ -88,7 +89,23 @@ class BarSort extends React.Component {
     }
     visualizeSort() {
         var that = this;
-        var barStates = this.bubbleSort();
+        var barStates;
+        if (this.currentAlgo === 'bubble') {
+            barStates = this.bubbleSort();
+        }
+        else if (this.currentAlgo === 'merge') {
+            barStates = this.bubbleSort();
+        }
+        else if (this.currentAlgo === 'quick') {
+            barStates = this.bubbleSort();
+        }
+        else if (this.currentAlgo === 'heap') {
+            barStates = this.bubbleSort();
+        }
+        else { //binary
+            barStates = this.bubbleSort();
+        }
+
         var speed = this.state.speed.current.value;
         //console.log(barStates);
 
@@ -183,6 +200,12 @@ class BarSort extends React.Component {
         return array;
     }
 
+    setAlgo(type) {
+        this.setState({
+            currentAlgo: type,
+        });
+    }
+
 
     render() {
 
@@ -197,6 +220,13 @@ class BarSort extends React.Component {
         );
         return (
             <div className="sortDiv">
+                <center>
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('quick')}>Q U I C K</Button>
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('merge')} >M E R G E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('heap')}>H E A P</Button>
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('bubble')} >B U B B L E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('binary')}>B I N A R Y</Button>
+                </center>
                 <br />
                 <Card>
                     <Card.Body>

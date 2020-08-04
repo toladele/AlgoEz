@@ -43,6 +43,8 @@
 }
 .sortDiv {
     margin: auto;
+}.algoButton {
+    margin-right: 2.0px;
 }
 .toggleArea {
     text-align:center;
