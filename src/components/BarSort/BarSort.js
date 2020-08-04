@@ -16,7 +16,8 @@ class BarSort extends React.Component {
             max: props.max,
             values: [],
             active: false,
-            bars: []
+            bars: [],
+            speed: React.createRef()
         }
 
     }
@@ -76,6 +77,9 @@ class BarSort extends React.Component {
                         currentArray[k].action = 0;
                     }
                     barStates.push(JSON.parse(JSON.stringify(currentArray)));
+                    for (let k = 0; k < j + 1; k++) {
+                        currentArray[k].action = 0;
+                    }
                     //console.log(currentArray);
                 }
             }
@@ -85,6 +89,7 @@ class BarSort extends React.Component {
     visualizeSort() {
         var that = this;
         var barStates = this.bubbleSort();
+        var speed = this.state.speed.current.value;
         //console.log(barStates);
 
 
@@ -93,13 +98,15 @@ class BarSort extends React.Component {
             setTimeout(() => {
                 that.setState({ bars: barStates[i] });
                 //console.log(barStates[i]);
-            }, 10 * i + 1);
+            }, speed * i + 1);
         }
 
     }
+
+
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
-        while (arr1.length != 0 && arr2.length != 0) {
+        while (arr1.length !== 0 && arr2.length !== 0) {
 
             if (arr1[0] <= arr2[0]) {
 
@@ -179,9 +186,6 @@ class BarSort extends React.Component {
 
     render() {
 
-
-
-
         var width = 92.0 / this.state.count;
         var margin = 4.0 / this.state.count;
 
@@ -205,10 +209,19 @@ class BarSort extends React.Component {
                                         <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
                                         <p className="rangeText">100</p>
                                         <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
-                                        <br />
                                         <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
-                                        <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
                                     </center>
+
+                                    <Form.Label>Speed</Form.Label>
+                                    <div className="controlArea">
+                                        <center>
+                                            <p className="rangeText">Slow</p>
+                                            <Form.Control ref={this.state.speed} className="speedControl" type="range" min="20" max="2000" step="10" />
+                                            <p className="rangeText">Fast</p>
+                                            <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
+                                        </center>
+                                    </div>
+
                                 </div>
 
 

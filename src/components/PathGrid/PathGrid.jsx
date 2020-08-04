@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
 import './PathGrid.css';
 import dijkstra from '../pathAlgo/dijkstra';
-import bfs from '../pathAlgo/bfs';
+// import bfs from '../pathAlgo/bfs';
 import Button from 'react-bootstrap/Button';
 
 
@@ -28,7 +28,7 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         const newGrid = this.state.grid.slice();
@@ -49,7 +49,7 @@ export default class PathGrid extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     console.log(visitedNodesInOrder);
     this.animateAlgo(visitedNodesInOrder);
   }
@@ -57,6 +57,20 @@ export default class PathGrid extends Component {
   clear() {
     const clearGrid = getStartGrid();
     this.setState({ grid: clearGrid });
+    for (let row = 0; row < 14; row++) {
+      for (let col = 0; col < 14; col++) {
+        if (row === START_NODE_ROW && col === START_NODE_COL){
+          document.getElementById(`node-${row}-${col}`).className =
+          'node start-node';
+        } else if (row === FINISH_NODE_ROW && col === FINISH_NODE_COL){
+          document.getElementById(`node-${row}-${col}`).className =
+          'node finish-node';
+        } else {
+          document.getElementById(`node-${row}-${col}`).className =
+          'node ';
+        }
+      }
+    }
   }
 
   render() {
@@ -79,16 +93,16 @@ export default class PathGrid extends Component {
                 <div key={rowIdx}>
                   {row.map((node, nodeIdx) => {
                     const {
-                      // row, 
-                      // col, 
+                      row, 
+                      col, 
                       isFinish, isStart, isVisited
                       //isWall 
                     } = node;
                     return (
                       <Node
                         key={nodeIdx}
-                        // col={col}
-                        // row={row}
+                        col={col}
+                        row={row}
                         isFinish={isFinish}
                         isStart={isStart}
                         isVisited={isVisited}
@@ -124,7 +138,8 @@ const createNode = (col, row) => {
     row,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-    distance: Infinity
+    distance: Infinity,
+    isVisited: false
   };
 };
 
