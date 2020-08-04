@@ -29,6 +29,7 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
+    /*
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
@@ -41,6 +42,15 @@ export default class PathGrid extends Component {
         this.setState({ grid: newGrid });
       }, 40 * i);
     }
+    */
+   for (let i = 0; i < visitedNodesInOrder.length; i++) {
+
+    setTimeout(() => {
+      const node = visitedNodesInOrder[i];
+      document.getElementById(`node-${node.row}-${node.col}`).className =
+        'node visited-node';
+    }, 20 * i);
+  }
   }
 
 
@@ -74,8 +84,8 @@ export default class PathGrid extends Component {
   clear() {
     const clearGrid = getStartGrid();
     this.setState({ grid: clearGrid });
-    for (let row = 0; row < 14; row++) {
-      for (let col = 0; col < 14; col++) {
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < 45; col++) {
         if (row === START_NODE_ROW && col === START_NODE_COL) {
           document.getElementById(`node-${row}-${col}`).className =
             'node start-node';
