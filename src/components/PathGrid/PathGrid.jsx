@@ -7,10 +7,10 @@ import bfs from '../pathAlgo/bfs';
 import Button from 'react-bootstrap/Button';
 
 
-const START_NODE_ROW = 1;
-const START_NODE_COL = 1;
-const FINISH_NODE_ROW = 5;
-const FINISH_NODE_COL = 5;
+const START_NODE_ROW = 5;
+const START_NODE_COL = 5;
+const FINISH_NODE_ROW = 10;
+const FINISH_NODE_COL = 10;
 
 export default class PathGrid extends Component {
   constructor() {
@@ -145,9 +145,9 @@ const createNode = (col, row) => {
 
 const getStartGrid = () => {
   const grid = [];
-  for (let row = 0; row < 10; row++) {
+  for (let row = 0; row < 20; row++) {
     const currentRow = [];
-    for (let col = 0; col < 10; col++) {
+    for (let col = 0; col < 20; col++) {
       currentRow.push(createNode(col, row));
     }
     grid.push(currentRow);
