@@ -21,12 +21,6 @@ class BarSort extends React.Component {
             actionCount: 0,
             clearedActions: 0
         }
-        this.setBubble = this.setBubble.bind(this);
-        this.setBinary = this.setBinary.bind(this);
-        this.setHeap = this.setHeap.bind(this);
-        this.setQuick = this.setQuick.bind(this);
-        this.setMerge = this.setMerge.bind(this);
-
     }
 
     generateBars() {
@@ -189,7 +183,11 @@ class BarSort extends React.Component {
     visualizeSort() {
         var barStates;
         var algo = this.state.currentAlgo;
-        this.state.actionCount +=1;
+        var count = this.state.actionCount + 1;
+        this.setState({
+            actionCount: count,
+        })
+        console.log(algo);
         if (algo === 'bubble') {
             barStates = this.bubbleSort();
         }
@@ -289,7 +287,6 @@ class BarSort extends React.Component {
         });
         var currentArray = JSON.parse(JSON.stringify(this.state.bars));
         var final = this.quickSort(currentArray, 0, currentArray.length-1);
-
         var speed = this.state.speed.current.value;
         var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
         var currentAction = this.state.actionCount;
