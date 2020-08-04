@@ -4,6 +4,7 @@ import Node from './Node/Node'
 import './PathGrid.css';
 import dijkstra from '../pathAlgo/dijkstra';
 import bfs from '../pathAlgo/bfs';
+import dfs from '../pathAlgo/dfs';
 import Button from 'react-bootstrap/Button';
 
 
@@ -90,31 +91,31 @@ export default class PathGrid extends Component {
     }
   }
 
-setBfs() {
+  setBfs() {
     this.setState({
-        currentAlgo: 'bfs',
+      currentAlgo: 'bfs',
     });
-}
-setDijk() {
+  }
+  setDijk() {
     this.setState({
-        currentAlgo: 'dijkstra',
+      currentAlgo: 'dijkstra',
     });
-}
-setDfs() {
+  }
+  setDfs() {
     this.setState({
-        currentAlgo: 'dfs',
+      currentAlgo: 'dfs',
     });
-}
-setGreedy() {
+  }
+  setGreedy() {
     this.setState({
-        currentAlgo: 'greedy',
+      currentAlgo: 'greedy',
     });
-}
-setAstar() {
+  }
+  setAstar() {
     this.setState({
-        currentAlgo: 'a',
+      currentAlgo: 'a',
     });
-}
+  }
 
 
   render() {
@@ -125,12 +126,12 @@ setAstar() {
     return (
       <>
         <center>
-          <Button className= "algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
-          <Button className= "algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>                    
-          <Button className= "algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
-          <Button className= "algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>                    
-          <Button className= "algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button>
-          <br/>
+          <Button className="algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button>
+          <br />
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
           </Button>
