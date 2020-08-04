@@ -52,7 +52,6 @@ export default class PathGrid extends Component {
     //call the dikes algorithm 
     var algo = this.state.currentAlgo;
     var visitedNodesInOrder;
-    console.log(algo);
     if (algo === 'greedy') {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
