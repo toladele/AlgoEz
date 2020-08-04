@@ -88,13 +88,13 @@ class BarSort extends React.Component {
             setTimeout(() => {
                 that.setState({bars: barStates[i]});
                 //console.log(barStates[i]);
-              }, 10 * i+1);
+              }, 200 * i+1);
         }
         
     }
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
-          while (arr1.length != 0 && arr2.length != 0) {
+          while (arr1.length !== 0 && arr2.length !== 0) {
         
             if (arr1[0] <= arr2[0]) {
         
