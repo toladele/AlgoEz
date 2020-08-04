@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '../Bars/node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
-import './PathGrid.css';
-import dijkstra from '../pathAlgo/dijkstra';
-import bfs from '../pathAlgo/bfs';
-import dfs from '../pathAlgo/dfs';
+import './Grid.css';
+import dijkstra from '../../PathAlgorithms/dijkstra';
+import bfs from '../../PathAlgorithms/bfs';
+import dfs from '../../PathAlgorithms/dfs';
 import Button from 'react-bootstrap/Button';
 
 
