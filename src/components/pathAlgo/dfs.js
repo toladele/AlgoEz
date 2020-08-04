@@ -14,7 +14,7 @@ export default function dfs(grid, startNode, finishNode) {
     var stack = [];
     var visited = [];
 
-    stack.unshift(startNode);
+    stack.push(startNode);
 
     const gridRow = grid.length;
     const gridCol = grid[0].length;
@@ -54,8 +54,8 @@ export default function dfs(grid, startNode, finishNode) {
         }
 
         for (var neighbor of neighbors) {
-            if (visited.includes(neighbor)) {
-                stack.unshift(neighbor);
+            if (!visited.includes(neighbor)) {
+                stack.push(neighbor);
             }
         }
 
