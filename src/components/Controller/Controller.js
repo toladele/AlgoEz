@@ -32,8 +32,8 @@ class Controller extends React.Component {
                 <div className="toggleArea">
                     <br/>
                     <ToggleButtonGroup type="radio" name="mode" >
-                        <ToggleButton value="path" onClick={this.setPath.bind(this)}>Path-Finding</ToggleButton>
-                        <ToggleButton value="sort" onClick={this.setSort.bind(this)}>Sorting</ToggleButton>
+                        <ToggleButton value="path" onClick={this.setPath.bind(this)}>PATH-FINDING</ToggleButton>
+                        <ToggleButton value="sort" onClick={this.setSort.bind(this)}>SORTING</ToggleButton>
                     </ToggleButtonGroup>
                
                 </div>
@@ -47,8 +47,8 @@ class Controller extends React.Component {
                         <div className="toggleArea">
                         <br/>
                         <ToggleButtonGroup type="radio" name="mode">
-                            <ToggleButton value="path" onClick={this.setPath.bind(this)}>Path-Finding</ToggleButton>
-                            <ToggleButton value="sort" onClick={this.setSort.bind(this)}>Sorting</ToggleButton>
+                            <ToggleButton variant="secondary" value="path" onClick={this.setPath.bind(this)}>PATH-FINDING</ToggleButton>
+                            <ToggleButton value="sort" onClick={this.setSort.bind(this)}>SORTING</ToggleButton>
                         </ToggleButtonGroup>
                     
                         </div>
@@ -64,8 +64,8 @@ class Controller extends React.Component {
                         <div className="toggleArea">
                             <br/>
                             <ToggleButtonGroup type="radio" name="mode">
-                                <ToggleButton value="path" onClick={this.setPath.bind(this)}>Path-Finding</ToggleButton>
-                                <ToggleButton value="sort" onClick={this.setSort.bind(this)}>Sorting</ToggleButton>
+                                <ToggleButton value="path" onClick={this.setPath.bind(this)}>PATH-FINDING</ToggleButton>
+                                <ToggleButton variant="secondary" value="sort" onClick={this.setSort.bind(this)}>SORTING</ToggleButton>
                             </ToggleButtonGroup>
                             
                         </div>
