@@ -183,10 +183,8 @@ class BarSort extends React.Component {
     visualizeSort() {
         var barStates;
         var algo = this.state.currentAlgo;
-        var count = this.state.actionCount + 1;
-        this.setState({
-            actionCount: count,
-        })
+        // eslint-disable-next-line
+        this.state.actionCount+= 1;
         if (algo === 'bubble') {
             barStates = this.bubbleSort();
         }
