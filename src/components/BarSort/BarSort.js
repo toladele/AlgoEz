@@ -54,36 +54,43 @@ class BarSort extends React.Component {
             bars: []
         });
     }
-    sorter(a,b) {
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
-        return 0;
-    }
-    bubble_sort() {
-        var that = this;
-        var array = this.state.bars;
-        for (let i=0; i<this.state.count; i++){
-            for (let j=0; j<this.state.count-i-1; j++){
-                if (array[j].value > array[j+1].value) {
-                    //console.log("THIS");
-                    
-                    
-                    //console.log(array[j].action);
-                    
-                    [array[j].value, array[j+1].value] = [array[j+1].value, array[j].value];
-                    setTimeout(() => {
-                        //console.log(array);
-                        
-                        array[j].action = 1;
-                        array[j+1].action = 1;
-                        that.setState({bars: array});}, 40*i);
+
+    bubbleSort() {
+        var barStates = [];
+        let currentArray = JSON.parse(JSON.stringify(this.state.bars));
+        //console.log(this.state.bars);
+        //console.log(currentArray);
+        for (let i = 0; i < this.state.count; i++){
+            for (let j = 0; j < this.state.count-i-1; j++){
+                currentArray[j].action = 0;
+                if (currentArray[j].value > currentArray[j+1].value){
+                    currentArray[j].action = 1;
+                    currentArray[j+1].action = 1;
+                    [currentArray[j].value, currentArray[j+1].value] = [currentArray[j+1].value, currentArray[j].value];
+                    for (let k =j+2; k<this.state.count; k++){
+                        currentArray[k].action = 0;
+                    }
+                    barStates.push(JSON.parse(JSON.stringify(currentArray)));
+                    //console.log(currentArray);
                 }
             }
         }
+        return barStates;
+    }
+    visualizeSort() {
+        var that =this;
+        var barStates = this.bubbleSort();
+        //console.log(barStates);
+        
+        
+        for (let i = 0; i < barStates.length; i++) {
+            console.log("In for");
+            setTimeout(() => {
+                that.setState({bars: barStates[i]});
+                //console.log(barStates[i]);
+              }, 10 * i+1);
+        }
+        
     }
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
@@ -107,19 +114,19 @@ class BarSort extends React.Component {
             arr_final.push(arr2.shift());
           return arr_final;
         }
-        merge_sort(a) {
-          if (a.length <= 1) {
-        
-            return a; }
-          else {
-            var mid = parseInt(a.length / 2);
-            var arr1   = a.slice(0, mid);
-            var arr2  = a.slice(mid, arr.length);
-        
-            return merge_sort_aux(merge_sort(arr1), merge_sort(arr2));
-            //recursive call
-          }
+    merge_sort(a) {
+        if (a.length <= 1) {
+    
+        return a; }
+        else {
+        var mid = parseInt(a.length / 2);
+        var arr1   = a.slice(0, mid);
+        var arr2  = a.slice(mid, a.length);
+    
+        return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
+        //recursive call
         }
+    }
     swap(array, leftIndex, rightIndex){
         var temp = array[leftIndex];
         array[leftIndex] = array[rightIndex];
@@ -137,7 +144,7 @@ class BarSort extends React.Component {
                 j--;
             }
             if (i <= j) {
-                swap(array, i, j); //sawpping two elements
+                this.swap(array, i, j); //sawpping two elements
                 i++;
                 j--;
             }
@@ -148,25 +155,18 @@ class BarSort extends React.Component {
     quickSort(array, left, right) {
         var index;
         if (array.length > 1) {
-            index = partition(array, left, right); //index returned from partition
+            index = this.partition(array, left, right); //index returned from partition
             if (left < index - 1) { //more elements on the left side of the pivot
-                quickSort(array, left, index - 1);
+                this.quickSort(array, left, index - 1);
             }
             if (index < right) { //more elements on the right side of the pivot
-                quickSort(array, index, right);
+                this.quickSort(array, index, right);
             }
         }
         return array;
     }
 
     
-    
-    one() {
-        return new Promise(resolve => {
-          console.log("one");
-          resolve();
-        });
-    }
     render(){
 
         var width = 92.0/this.state.count;
@@ -194,7 +194,7 @@ class BarSort extends React.Component {
                                     <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
                                     <br />
                                     <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button> 
-                                    <Button onClick={this.bubble_sort.bind(this)}>Sort</Button>
+                                    <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
                                 </center>
                             </div>                            
                             
