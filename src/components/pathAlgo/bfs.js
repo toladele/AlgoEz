@@ -12,7 +12,7 @@ function getAllNodes(grid) {
 export default function bfs(grid, startNode, finishNode) {
 
     var queue = [];
-    let visited = [];
+    var visited = [];
 
     queue.push(startNode);
 
@@ -26,20 +26,19 @@ export default function bfs(grid, startNode, finishNode) {
 
 
     while (queue.length) {
+
         var currentNode = queue.shift();
         var neighbors = [];
         visited.push(currentNode);
 
-        console.log(visited.length);
-        console.log(queue.length);
 
         if (currentNode === finishNode) {
             return visited;
         }
 
 
-        for (var node1 of unvisitedNodes) {
-            for (var i = 0; i < 4; i++) {
+        for (const node1 of unvisitedNodes) {
+            for (let i = 0; i < 4; i++) {
                 var r = currentNode.row + dr[i];
                 var c = currentNode.col + dc[i];
 

@@ -119,124 +119,120 @@ class BarSort extends React.Component {
             arr_final.push(arr2.shift());
         return arr_final;
     }
+
     merge_sort(a) {
         if (a.length <= 1) {
 
             return a;
         }
-        merge_sort(a) {
-            if (a.length <= 1) {
+        else {
+            var mid = parseInt(a.length / 2);
+            var arr1 = a.slice(0, mid);
+            var arr2 = a.slice(mid, a.length);
 
-                return a;
+            return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
+            //recursive call
+        }
+    }
+    swap(array, leftIndex, rightIndex) {
+        var temp = array[leftIndex];
+        array[leftIndex] = array[rightIndex];
+        array[rightIndex] = temp;
+    }
+
+
+    partition(array, left, right) {
+        var pivot = array[Math.floor((right + left) / 2)].value, //middle element
+            i = left, //left pointer
+            j = right; //right pointer
+        while (i <= j) {
+            while (array[i].value < pivot) {
+                i++;
             }
-            else {
-                var mid = parseInt(a.length / 2);
-                var arr1 = a.slice(0, mid);
-                var arr2 = a.slice(mid, a.length);
-
-                return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
-                //recursive call
+            while (array[j].value > pivot) {
+                j--;
+            }
+            if (i <= j) {
+                this.swap(array, i, j); //sawpping two elements
+                i++;
+                j--;
             }
         }
-        swap(array, leftIndex, rightIndex){
-            var temp = array[leftIndex];
-            array[leftIndex] = array[rightIndex];
-            array[rightIndex] = temp;
-        }
+        return i;
+    }
 
 
-        partition(array, left, right) {
-            var pivot = array[Math.floor((right + left) / 2)].value, //middle element
-                i = left, //left pointer
-                j = right; //right pointer
-            while (i <= j) {
-                while (array[i].value < pivot) {
-                    i++;
-                }
-                while (array[j].value > pivot) {
-                    j--;
-                }
-                if (i <= j) {
-                    this.swap(array, i, j); //sawpping two elements
-                    i++;
-                    j--;
-                }
+    quickSort(array, left, right) {
+        var index;
+        if (array.length > 1) {
+            index = this.partition(array, left, right); //index returned from partition
+            if (left < index - 1) { //more elements on the left side of the pivot
+                this.quickSort(array, left, index - 1);
             }
-            return i;
-        }
-
-
-        quickSort(array, left, right) {
-            var index;
-            if (array.length > 1) {
-                index = this.partition(array, left, right); //index returned from partition
-                if (left < index - 1) { //more elements on the left side of the pivot
-                    this.quickSort(array, left, index - 1);
-                }
-                if (index < right) { //more elements on the right side of the pivot
-                    this.quickSort(array, index, right);
-                }
+            if (index < right) { //more elements on the right side of the pivot
+                this.quickSort(array, index, right);
             }
-            return array;
         }
+        return array;
+    }
 
 
-        render(){
-
-
-            render() {
-
-                var width = 92.0 / this.state.count;
-                var margin = 4.0 / this.state.count;
-
-
-                const barList = this.state.bars.map((bar) =>
-                    <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action} />
-
-
-                );
-                return (
-                    <div className="sortDiv">
-                        <br />
-                        <Card>
-                            <Card.Body>
-                                <Form>
-                                    <Form.Group controlId="barQty">
-                                        <Form.Label>How many bars would you like to sort?</Form.Label>
-                                        <div className="controlArea">
-                                            <center>
-                                                <p className="rangeText">5</p>
-                                                <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
-                                                <p className="rangeText">100</p>
-                                                <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
-                                                <br />
-                                                <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
-                                                <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
-                                            </center>
-                                        </div>
+    render() {
 
 
 
-                                    </Form.Group>
-                                </Form>
+
+        var width = 92.0 / this.state.count;
+        var margin = 4.0 / this.state.count;
 
 
-                            </Card.Body>
-                        </Card>
-                        <br></br>
-                        <Card>
-                            <Card.Body className='containingCard'>
-                                <div className='barContainer'>
-                                    {barList}
+        const barList = this.state.bars.map((bar) =>
+            <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action} />
+
+
+        );
+        return (
+            <div className="sortDiv">
+                <br />
+                <Card>
+                    <Card.Body>
+                        <Form>
+                            <Form.Group controlId="barQty">
+                                <Form.Label>How many bars would you like to sort?</Form.Label>
+                                <div className="controlArea">
+                                    <center>
+                                        <p className="rangeText">5</p>
+                                        <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
+                                        <p className="rangeText">100</p>
+                                        <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
+                                        <br />
+                                        <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
+                                        <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
+                                    </center>
                                 </div>
-                            </Card.Body>
 
 
-                        </Card>
-                    </div>
 
-                )
-            }
-        }
+                            </Form.Group>
+                        </Form>
 
-        export default BarSort;
+
+                    </Card.Body>
+                </Card>
+                <br></br>
+                <Card>
+                    <Card.Body className='containingCard'>
+                        <div className='barContainer'>
+                            {barList}
+                        </div>
+                    </Card.Body>
+
+
+                </Card>
+            </div>
+
+        )
+    }
+}
+
+export default BarSort;

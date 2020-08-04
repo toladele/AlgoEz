@@ -9,8 +9,8 @@ import Button from 'react-bootstrap/Button';
 
 const START_NODE_ROW = 1;
 const START_NODE_COL = 1;
-const FINISH_NODE_ROW = 9;
-const FINISH_NODE_COL = 11;
+const FINISH_NODE_ROW = 5;
+const FINISH_NODE_COL = 5;
 
 export default class PathGrid extends Component {
   constructor() {
@@ -130,9 +130,9 @@ const createNode = (col, row) => {
 
 const getStartGrid = () => {
   const grid = [];
-  for (let row = 0; row < 14; row++) {
+  for (let row = 0; row < 10; row++) {
     const currentRow = [];
-    for (let col = 0; col < 14; col++) {
+    for (let col = 0; col < 10; col++) {
       currentRow.push(createNode(col, row));
     }
     grid.push(currentRow);
