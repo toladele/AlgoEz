@@ -60,40 +60,42 @@ class BarSort extends React.Component {
         });
     }
 
-
-    sorter(a, b) {
-        if (a < b) {
-            return -1;
-        }
-        if (a > b) {
-            return 1;
-        }
-        return 0;
-    }
-
-
-    bubble_sort() {
-        var that = this;
-        var array = this.state.bars;
+    bubbleSort() {
+        var barStates = [];
+        let currentArray = JSON.parse(JSON.stringify(this.state.bars));
+        //console.log(this.state.bars);
+        //console.log(currentArray);
         for (let i = 0; i < this.state.count; i++) {
             for (let j = 0; j < this.state.count - i - 1; j++) {
-                if (array[j].value > array[j + 1].value) {
-                    //console.log("THIS");
-
-
-                    //console.log(array[j].action);
-
-                    [array[j].value, array[j + 1].value] = [array[j + 1].value, array[j].value];
-                    setTimeout(() => {
-                        //console.log(array);
-
-                        array[j].action = 1;
-                        array[j + 1].action = 1;
-                        that.setState({ bars: array });
-                    }, 40 * i);
+                currentArray[j].action = 0;
+                if (currentArray[j].value > currentArray[j + 1].value) {
+                    currentArray[j].action = 1;
+                    currentArray[j + 1].action = 1;
+                    [currentArray[j].value, currentArray[j + 1].value] = [currentArray[j + 1].value, currentArray[j].value];
+                    for (let k = j + 2; k < this.state.count; k++) {
+                        currentArray[k].action = 0;
+                    }
+                    barStates.push(JSON.parse(JSON.stringify(currentArray)));
+                    //console.log(currentArray);
                 }
             }
         }
+        return barStates;
+    }
+    visualizeSort() {
+        var that = this;
+        var barStates = this.bubbleSort();
+        //console.log(barStates);
+
+
+        for (let i = 0; i < barStates.length; i++) {
+            console.log("In for");
+            setTimeout(() => {
+                that.setState({ bars: barStates[i] });
+                //console.log(barStates[i]);
+            }, 10 * i + 1);
+        }
+
     }
     merge_sort_aux(arr1, arr2) {
         var arr_final = [];
@@ -122,120 +124,119 @@ class BarSort extends React.Component {
 
             return a;
         }
-        else {
-            var mid = parseInt(a.length / 2);
-            var arr1 = a.slice(0, mid);
-            var arr2 = a.slice(mid, arr.length);
+        merge_sort(a) {
+            if (a.length <= 1) {
 
-            return merge_sort_aux(merge_sort(arr1), merge_sort(arr2));
-            //recursive call
-        }
-    }
-    swap(array, leftIndex, rightIndex) {
-        var temp = array[leftIndex];
-        array[leftIndex] = array[rightIndex];
-        array[rightIndex] = temp;
-    }
-
-
-    partition(array, left, right) {
-        var pivot = array[Math.floor((right + left) / 2)].value, //middle element
-            i = left, //left pointer
-            j = right; //right pointer
-        while (i <= j) {
-            while (array[i].value < pivot) {
-                i++;
+                return a;
             }
-            while (array[j].value > pivot) {
-                j--;
-            }
-            if (i <= j) {
-                this.swap(array, i, j); //sawpping two elements
-                i++;
-                j--;
+            else {
+                var mid = parseInt(a.length / 2);
+                var arr1 = a.slice(0, mid);
+                var arr2 = a.slice(mid, a.length);
+
+                return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
+                //recursive call
             }
         }
-        return i;
-    }
-
-
-    quickSort(array, left, right) {
-        var index;
-        if (array.length > 1) {
-            index = this.partition(array, left, right); //index returned from partition
-            if (left < index - 1) { //more elements on the left side of the pivot
-                this.quickSort(array, left, index - 1);
-            }
-            if (index < right) { //more elements on the right side of the pivot
-                this.quickSort(array, index, right);
-            }
+        swap(array, leftIndex, rightIndex){
+            var temp = array[leftIndex];
+            array[leftIndex] = array[rightIndex];
+            array[rightIndex] = temp;
         }
-        return array;
-    }
+
+
+        partition(array, left, right) {
+            var pivot = array[Math.floor((right + left) / 2)].value, //middle element
+                i = left, //left pointer
+                j = right; //right pointer
+            while (i <= j) {
+                while (array[i].value < pivot) {
+                    i++;
+                }
+                while (array[j].value > pivot) {
+                    j--;
+                }
+                if (i <= j) {
+                    this.swap(array, i, j); //sawpping two elements
+                    i++;
+                    j--;
+                }
+            }
+            return i;
+        }
+
+
+        quickSort(array, left, right) {
+            var index;
+            if (array.length > 1) {
+                index = this.partition(array, left, right); //index returned from partition
+                if (left < index - 1) { //more elements on the left side of the pivot
+                    this.quickSort(array, left, index - 1);
+                }
+                if (index < right) { //more elements on the right side of the pivot
+                    this.quickSort(array, index, right);
+                }
+            }
+            return array;
+        }
+
+
+        render(){
+
+
+            render() {
+
+                var width = 92.0 / this.state.count;
+                var margin = 4.0 / this.state.count;
+
+
+                const barList = this.state.bars.map((bar) =>
+                    <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action} />
+
+
+                );
+                return (
+                    <div className="sortDiv">
+                        <br />
+                        <Card>
+                            <Card.Body>
+                                <Form>
+                                    <Form.Group controlId="barQty">
+                                        <Form.Label>How many bars would you like to sort?</Form.Label>
+                                        <div className="controlArea">
+                                            <center>
+                                                <p className="rangeText">5</p>
+                                                <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
+                                                <p className="rangeText">100</p>
+                                                <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
+                                                <br />
+                                                <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
+                                                <Button onClick={this.visualizeSort.bind(this)}>Sort</Button>
+                                            </center>
+                                        </div>
 
 
 
-    one() {
-        return new Promise(resolve => {
-            console.log("one");
-            resolve();
-        });
-    }
+                                    </Form.Group>
+                                </Form>
 
 
-    render() {
-
-        var width = 92.0 / this.state.count;
-        var margin = 4.0 / this.state.count;
-
-
-        const barList = this.state.bars.map((bar) =>
-            <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action} />
-
-
-        );
-        return (
-            <div className="sortDiv">
-                <br />
-                <Card>
-                    <Card.Body>
-                        <Form>
-                            <Form.Group controlId="barQty">
-                                <Form.Label>How many bars would you like to sort?</Form.Label>
-                                <div className="controlArea">
-                                    <center>
-                                        <p className="rangeText">5</p>
-                                        <Form.Control ref={this.state.inputQty} className="rangeControl" type="range" min="5" max="100" step="1" />
-                                        <p className="rangeText">100</p>
-                                        <Button className="rangeText" onClick={this.generateBars.bind(this)}>Generate List</Button>
-                                        <br />
-                                        <Button onClick={this.clear.bind(this)} variant="secondary">Clear</Button>
-                                        <Button onClick={this.bubble_sort.bind(this)}>Sort</Button>
-                                    </center>
+                            </Card.Body>
+                        </Card>
+                        <br></br>
+                        <Card>
+                            <Card.Body className='containingCard'>
+                                <div className='barContainer'>
+                                    {barList}
                                 </div>
+                            </Card.Body>
 
 
+                        </Card>
+                    </div>
 
-                            </Form.Group>
-                        </Form>
+                )
+            }
+        }
 
-
-                    </Card.Body>
-                </Card>
-                <br></br>
-                <Card>
-                    <Card.Body className='containingCard'>
-                        <div className='barContainer'>
-                            {barList}
-                        </div>
-                    </Card.Body>
-
-
-                </Card>
-            </div>
-
-        )
-    }
-}
-
-export default BarSort;
+        export default BarSort;
