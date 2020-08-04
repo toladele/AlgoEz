@@ -19,9 +19,6 @@ class BarSort extends React.Component {
             currentAlgo: 'quick',
             stateArray: []
         }
-       
-        //this.visualizeSort = this.visualizeSort.bind(this);
-
     }
 
     generateBars() {
@@ -177,21 +174,21 @@ class BarSort extends React.Component {
         array[idx2] = temp;
     }
 
-    visualizeSort(e) {
+    visualizeSort() {
         var that = this;
         var barStates;
-        //var algo = this.currentAlgo;
-        if (this.currentAlgo === 'bubble') {
+        var algo = this.state.currentAlgo;
+        if (algo === 'bubble') {
             barStates = this.bubbleSort();
         }
-        else if (this.currentAlgo === 'merge') {
+        else if (algo === 'merge') {
             barStates = this.bubbleSort();
         }
-        else if (this.currentAlgo === 'quick') {
+        else if (algo === 'quick') {
             this.visualizeQuickSort();
             return;
         }
-        else if (this.currentAlgo === 'heap') {
+        else if (algo === 'heap') {
             barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
         }
         else { //binary
@@ -201,7 +198,6 @@ class BarSort extends React.Component {
 
         var speed = this.state.speed.current.value;
         //console.log(barStates);
-        
         
         for (let i = 0; i < barStates.length; i++) {
             //console.log("In for");
@@ -322,7 +318,6 @@ class BarSort extends React.Component {
     render(){
             var width = 92.0/this.state.count;
             var margin = 4.0/this.state.count;
-            var that = this;
             
             const barList = this.state.bars.map((bar) =>
                         <Bar key={bar.value} value={bar.value} barWidth={width} barMargin={margin} action={bar.action}/>             
@@ -333,7 +328,7 @@ class BarSort extends React.Component {
                 <center>
                     <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('quick')}>Q U I C K</Button>
                     <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('merge')} >M E R G E</Button>                    
-                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo.bind('heap')} >H E A P</Button>
+                    <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('heap')} >H E A P</Button>
                     <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('bubble')} >B U B B L E</Button>                    
                     <Button className= "algoButton" variant="dark" onClick={(e) => this.setAlgo('binary')}>B I N A R Y</Button>
                 </center>
@@ -358,7 +353,7 @@ class BarSort extends React.Component {
                                             <p className="rangeText">Slow</p>  
                                             <Form.Control ref={this.state.speed} className="speedControl" type="range" min="20" max="2000" step="10"/>                            
                                             <p className="rangeText">Fast</p>
-                                            <Button className="rangeText" onClick={(e) => this.visualizeSort(e)}>Sort</Button>
+                                            <Button className="rangeText" onClick={this.visualizeSort.bind(this)}>Sort</Button>
                                             {/* <Button className="rangeText" onClick={this.visualizeQuickSort.bind(this)}>Quick Sort</Button> */}
                                             
                                             </center>
