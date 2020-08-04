@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
 import './PathGrid.css';
 import dijkstra from '../pathAlgo/dijkstra';
-import bfs from '../pathAlgo/bfs';
+// import bfs from '../pathAlgo/bfs';
 import Button from 'react-bootstrap/Button';
 
 
@@ -28,7 +28,7 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    for (let i = 0; i <= visitedNodesInOrder.length; i++) {
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
       setTimeout(() => {
         const node = visitedNodesInOrder[i];
         const newGrid = this.state.grid.slice();
@@ -49,7 +49,7 @@ export default class PathGrid extends Component {
     const startNode = grid[START_NODE_ROW][START_NODE_COL];
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
     //call the dikes algorithm 
-    const visitedNodesInOrder = bfs(grid, startNode, finishNode);
+    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
     console.log(visitedNodesInOrder);
     this.animateAlgo(visitedNodesInOrder);
   }
