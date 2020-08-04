@@ -57,6 +57,20 @@ export default class PathGrid extends Component {
   clear() {
     const clearGrid = getStartGrid();
     this.setState({ grid: clearGrid });
+    for (let row = 0; row < 14; row++) {
+      for (let col = 0; col < 14; col++) {
+        if (row === START_NODE_ROW && col === START_NODE_COL){
+          document.getElementById(`node-${row}-${col}`).className =
+          'node start-node';
+        } else if (row === FINISH_NODE_ROW && col === FINISH_NODE_COL){
+          document.getElementById(`node-${row}-${col}`).className =
+          'node finish-node';
+        } else {
+          document.getElementById(`node-${row}-${col}`).className =
+          'node ';
+        }
+      }
+    }
   }
 
   render() {
@@ -79,16 +93,16 @@ export default class PathGrid extends Component {
                 <div key={rowIdx}>
                   {row.map((node, nodeIdx) => {
                     const {
-                      // row, 
-                      // col, 
+                      row, 
+                      col, 
                       isFinish, isStart, isVisited
                       //isWall 
                     } = node;
                     return (
                       <Node
                         key={nodeIdx}
-                        // col={col}
-                        // row={row}
+                        col={col}
+                        row={row}
                         isFinish={isFinish}
                         isStart={isStart}
                         isVisited={isVisited}
@@ -124,7 +138,8 @@ const createNode = (col, row) => {
     row,
     isStart: row === START_NODE_ROW && col === START_NODE_COL,
     isFinish: row === FINISH_NODE_ROW && col === FINISH_NODE_COL,
-    distance: Infinity
+    distance: Infinity,
+    isVisited: false
   };
 };
 
