@@ -214,8 +214,7 @@ export default class PathGrid extends Component {
           <Button className="algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
-          {/* <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>
-          <Button className="algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button> */}
+          {/* <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button> */}
           <br />
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
