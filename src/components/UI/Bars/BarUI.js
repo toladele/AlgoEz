@@ -78,31 +78,22 @@ class BarSort extends React.Component {
         if (algo === 'bubble') {
             barStates = bubbleSort(bars);
         }
-        else if (algo === 'merge') {
-            barStates = this.visualizeMergeSort();
-        }
         else if (algo === 'quick') {
             this.visualizeQuickSort();
             return;
         }
-        else if (algo === 'heap') {
+        else { // heap
             barStates = heapSort(bars);
-        }
-        else { //binary
-            barStates = bubbleSort(bars);
         }
 
         var speed = this.state.speed.current.value;
-        //console.log(barStates);
         var currentAction = JSON.parse(JSON.stringify(this.state.actionCount));
         for (let i = 0; i < barStates.length; i++) {
-            //console.log("In for");
             setTimeout(() => {
                 if (currentAction > this.state.clearedActions) {
                     this.setState({bars: barStates[i]});
                 }
                 
-                //console.log(barStates[i]);
               }, speed * i+1);
         }
     }
@@ -176,13 +167,11 @@ class BarSort extends React.Component {
         var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
         var currentAction = this.state.actionCount;
         for (let i = 0; i < barStates.length; i++) {
-            //console.log("In for");
             setTimeout(() => {
                 if (currentAction> this.state.clearedActions) {
                     this.setState({bars: barStates[i]});
                 }
                 
-                //console.log(barStates[i]);
                 }, speed * i+1);
         }
     }
@@ -197,19 +186,9 @@ class BarSort extends React.Component {
             currentAlgo: 'quick',
         });
     }
-    setMerge() {
-        this.setState({
-            currentAlgo: 'merge',
-        });
-    }
     setHeap() {
         this.setState({
             currentAlgo: 'heap',
-        });
-    }
-    setBinary() {
-        this.setState({
-            currentAlgo: 'binary',
         });
     }
 
@@ -249,10 +228,8 @@ class BarSort extends React.Component {
                 <div className="sortDiv">
                 <center>
                     <Button className= "algoButton" variant="dark" onClick={this.setQuick.bind(this)}>Q U I C K</Button>
-                    {/* <Button className= "algoButton" variant="dark" onClick={this.setMerge.bind(this)} >M E R G E</Button>                     */}
                     <Button className= "algoButton" variant="dark" onClick={this.setHeap.bind(this)}>H E A P</Button>
                     <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L E</Button>                    
-                    {/* <Button className= "algoButton" variant="dark" onClick={this.setBinary.bind(this)}>B I N A R Y</Button> */}
                 </center>
                     <br/>
                 <Card>

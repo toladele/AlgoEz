@@ -1,9 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './BarUI.css'
-//import { NavDropdown, Navbar, Nav } from 'react-bootstrap';
-
-
 
 class Bar extends React.Component {
     constructor(props) {
@@ -24,7 +21,6 @@ class Bar extends React.Component {
     }
     render(){
         var colour;
-        //console.log(this.state.action);
         if (this.state.action === 0) {
             colour = "#f2a900";
         } else if (this.state.action === 1) {

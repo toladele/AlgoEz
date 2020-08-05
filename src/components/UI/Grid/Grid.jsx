@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import '../Bars/node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
 import './Grid.css';
 import dijkstra from '../../PathAlgorithms/dijkstra';
@@ -243,17 +242,9 @@ export default class PathGrid extends Component {
                         isFinish={isFinish}
                         isStart={isStart}
                         isVisited={isVisited}
-                      // isWall={isWall}
-                      //  onMousePressed={onMousePressed}
                       onMouseDown={(row, col) => 
                         this.handleMouseDown(row, col)
                       }                      // }
-                      // onMouseEnter={(row, col) => ({})
-                      //   //  this.handleMouseEnter(row, col)
-                      // }
-                      // onMouseUp={() => ({})
-                      //   // this.handleMouseUp()
-                      // }
                       >
                       </Node>
                     );
