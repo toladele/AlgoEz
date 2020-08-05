@@ -4,7 +4,8 @@ import Bar from './Bar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import heapSort from '../../SortingAlgorithms/heapSort'
+import heapSort from '../../SortingAlgorithms/heapSort';
+import bubbleSort from '../../SortingAlgorithms/bubbleSort';
 
 class BarSort extends React.Component {
 
@@ -61,32 +62,6 @@ class BarSort extends React.Component {
         });
         console.log(this.state.clearedActions);
     }
-
-    bubbleSort() {
-        var barStates = [];
-        let currentArray = JSON.parse(JSON.stringify(this.state.bars));
-        //console.log(this.state.bars);
-        //console.log(currentArray);
-        for (let i = 0; i < this.state.count; i++) {
-            for (let j = 0; j < this.state.count - i - 1; j++) {
-                currentArray[j].action = 0;
-                if (currentArray[j].value > currentArray[j + 1].value) {
-                    currentArray[j].action = 1;
-                    currentArray[j + 1].action = 1;
-                    [currentArray[j].value, currentArray[j + 1].value] = [currentArray[j + 1].value, currentArray[j].value];
-                    for (let k = j + 2; k < this.state.count; k++) {
-                        currentArray[k].action = 0;
-                    }
-                    barStates.push(JSON.parse(JSON.stringify(currentArray)));
-                    for (let k = 0; k < j+1; k++){
-                        currentArray[k].action = 0;
-                    }
-                    //console.log(currentArray);
-                }
-            }
-        }
-        return barStates;
-    }
     
     swap(array, idx1, idx2) {
         var temp = array[idx1];
@@ -99,8 +74,9 @@ class BarSort extends React.Component {
         var algo = this.state.currentAlgo;
         // eslint-disable-next-line
         this.state.actionCount+= 1;
+        var bars = JSON.parse(JSON.stringify(this.state.bars));
         if (algo === 'bubble') {
-            barStates = this.bubbleSort();
+            barStates = bubbleSort(bars);
         }
         else if (algo === 'merge') {
             barStates = this.visualizeMergeSort();
@@ -110,10 +86,10 @@ class BarSort extends React.Component {
             return;
         }
         else if (algo === 'heap') {
-            barStates = heapSort(JSON.parse(JSON.stringify(this.state.bars)));
+            barStates = heapSort(bars);
         }
         else { //binary
-            barStates = this.bubbleSort();
+            barStates = bubbleSort(bars);
         }
 
         var speed = this.state.speed.current.value;
