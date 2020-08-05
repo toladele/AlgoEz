@@ -9,15 +9,21 @@ function quickSort(bars, left, right, animations) {
         for (let j =0; j<index;j++){
             bars[j].action = 0;
         }
+        // mark as pivot action
         bars[index].action = 1;
 
         for (let j = index+1; j< bars.length; j++){
+            // mark others default action
             bars[j].action = 0;
         }
         if (left < index - 1) { //more elements on the left side of the pivot
+            bars[left].action = 2;
+            bars[index-1].action = 2;
             quickSort(bars, left, index - 1, animations);
         }
         if (index < right) { //more elements on the right side of the pivot
+            bars[index].action = 2;
+            bars[right].action = 2;
             quickSort(bars, index, right, animations);
         }
     }
