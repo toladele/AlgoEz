@@ -27,7 +27,18 @@ export default class Grid extends Component {
     this.setState({ grid });
   }
 
-
+/*
+--------------------------------------------------------------------------------------------
+Name: animateAlgo(visitedNodesInOrder)
+Parameters: visitedNodesInOrder: array of nodes
+Variables: 
+  -currentAction: action counter
+Functions called:
+Description of module:
+  This function animates the DFS or dijkstra algorithm. It traverses through the visitedNodesInOrder
+  and changes their state to blue, while delaying the change by a short period of time.
+-----------------------------------------------------------------------------------------------
+*/
   animateAlgo(visitedNodesInOrder) {
     var currentAction = this.state.actionCount;
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
@@ -42,7 +53,19 @@ export default class Grid extends Component {
       }, 20 * i);
     }
   }
-
+/*
+--------------------------------------------------------------------------------------------
+Name: animateBfs(visitedNodesInOrder)
+Parameters: visitedNodesInOrder: array of nodes
+Variables: 
+Functions called:
+Description of module:
+  This function animates the BFS algorithm. Due to the fact that nodes are traversed more than
+  once using BFS, the nodes vary between three different colours in order to better illustrate
+  the algorithm. A timeout is used to delay the changing of colours which helps a user view the
+  animation.
+-----------------------------------------------------------------------------------------------
+*/
   animateBfs(visitedNodesInOrder) {
     var currentAction = this.state.actionCount;
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
@@ -66,7 +89,23 @@ export default class Grid extends Component {
       }, 4 * i);
     }
   }
-
+/*
+--------------------------------------------------------------------------------------------
+Name: visualize()
+Variables: 
+  -algo: set as the pathfinding algorithm selected by the user (DFS, BFS, Dijkstra)
+  -grid: the pathfinding grid
+  -startnode, finishnode: nodes representing where pathfinding begins and ends
+  -visitedNodesInOrder: array containing the selected algorithm's visited nodes, in order
+Functions called:
+  -dfs, bfs, dijkstra, animateAlgo, animateBfs
+Description of module:
+  This module identifies the grid, it's start and finish nodes, and the user's algorithm.
+  It then calls the corresponding algorithm function, which returns the visitedNodesInOrder.
+  Then using the visitedNodesInOrder, it calls the animateAlgo() function, which animates the
+  algorithm.
+-----------------------------------------------------------------------------------------------
+*/
 
   visualize() {
     // grid, startnode, finishnode 
@@ -78,7 +117,7 @@ export default class Grid extends Component {
     this.state.actionCount++;
     const startNode = grid[this.state.start_node_row][this.state.start_node_col];
     const finishNode = grid[this.state.finish_node_row][this.state.finish_node_col];
-    //call the dikes algorithm 
+    //call the selected algorithm 
     var algo = this.state.currentAlgo;
     var visitedNodesInOrder;
     if (algo === 'greedy') {
@@ -96,13 +135,23 @@ export default class Grid extends Component {
     else { //bfs
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
-    console.log(visitedNodesInOrder);
     if (algo === 'bfs') {
       this.animateBfs(visitedNodesInOrder);
     } else {
       this.animateAlgo(visitedNodesInOrder);
     }
   }
+
+/*
+--------------------------------------------------------------------------------------------
+Name: clear()
+Variables: 
+  -clearGrid: the pathfinding grid to be cleared
+Functions called:
+Description of module:
+  This module traverses through the grid and resets each node to its original state.
+-----------------------------------------------------------------------------------------------
+*/
 
   clear() {
     const clearGrid = this.getStartGrid();
@@ -257,6 +306,20 @@ export default class Grid extends Component {
 
   }
 
+/*
+--------------------------------------------------------------------------------------------
+Name: createNode(col,row)
+Parameters: 
+  -col: column number
+  -row: row number
+Variables: 
+  -start_row, start_col, finish_col, finish_row: locations of the start/finsih node's row/col
+Functions called:
+Description of module:
+  This module takes a row and column number and creates and returns a node in that location.
+Returns: col, row, isStart, isFinish, distance, isVisited
+-----------------------------------------------------------------------------------------------
+*/
   createNode = (col, row) => {
     var start_row = this.state.start_node_row;
     var start_col = this.state.start_node_col;
@@ -271,7 +334,20 @@ export default class Grid extends Component {
       isVisited: false
     };
   };
-  
+/*
+--------------------------------------------------------------------------------------------
+Name: getStartGrid()
+Parameters:
+Variables: 
+  -grid: matrix containing nodes, represents the pathfinding grid
+Functions called:
+  -createNode(col, row)
+Returns:
+  -grid
+Description of module:
+  This function initializes the starting pathfinding grid, by adding nodes to a 20*45 size matrix
+-----------------------------------------------------------------------------------------------
+*/  
   getStartGrid = () => {
     const grid = [];
     for (let row = 0; row < 20; row++) {
