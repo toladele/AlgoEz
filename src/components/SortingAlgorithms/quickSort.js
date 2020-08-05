@@ -1,27 +1,5 @@
-function visualizeQuickSort() {
-    /*this.setState({
-        stateArray : [],
-    });*/
-    var currentArray = JSON.parse(JSON.stringify(this.state.bars));
-    this.quickSort(currentArray, 0, currentArray.length-1);
-    var speed = this.state.speed.current.value;
-    var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
-    var currentAction = this.state.actionCount;
-    for (let i = 0; i < barStates.length; i++) {
-        //console.log("In for");
-        setTimeout(() => {
-            if (currentAction> this.state.clearedActions) {
-                this.setState({bars: barStates[i]});
-            }
-            
-            //console.log(barStates[i]);
-            }, speed * i+1);
-    }
-}
-
-function quickSort(bars, left, right) {
+function quickSort(bars, left, right, animations) {
     var index;
-    var animations = [];
     var length = bars.length;
     pushAnimation(animations, bars);
 
@@ -37,13 +15,13 @@ function quickSort(bars, left, right) {
             bars[j].action = 0;
         }
         if (left < index - 1) { //more elements on the left side of the pivot
-            quickSort(bars, left, index - 1);
+            quickSort(bars, left, index - 1, animations);
         }
         if (index < right) { //more elements on the right side of the pivot
-            quickSort(bars, index, right);
+            quickSort(bars, index, right, animations);
         }
     }
-    return bars;
+    return animations;
 }
 
 function partition(bars, left, right) {
@@ -58,18 +36,13 @@ function partition(bars, left, right) {
             j--;
         }
         if (i <= j) {
-            swap(bars, i, j); //sawpping two elements
+            //swap(bars, i, j); //sawpping two elements
+            [bars[i], bars[j]] = [bars[j], bars[i]];
             i++;
             j--;
         }
     }
     return i;
-}
-
-function swap(array, idx1, idx2) {
-    var temp = array[idx1];
-    array[idx1] = array[idx2];
-    array[idx2] = temp;
 }
 
 function pushAnimation(animations, bars) {

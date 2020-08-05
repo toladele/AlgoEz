@@ -80,9 +80,7 @@ class BarSort extends React.Component {
             barStates = bubbleSort(bars);
         }
         else if (algo === 'quick') {
-            //this.visualizeQuickSort();
-            //return;
-            barStates = quickSort(bars, 0, bars.length-1);
+            barStates = quickSort(bars, 0, bars.length-1, []);
         }
         else { // heap
             barStates = heapSort(bars);
@@ -137,46 +135,6 @@ class BarSort extends React.Component {
             //recursive call
         }
     }
- 
-
-    partition(array, left, right) {
-        var pivot = array[Math.floor((right + left) / 2)].value, //middle element
-            i = left, //left pointer
-            j = right; //right pointer
-        while (i <= j) {
-            while (array[i].value < pivot) {
-                i++;
-            }
-            while (array[j].value > pivot) {
-                j--;
-            }
-            if (i <= j) {
-                this.swap(array, i, j); //sawpping two elements
-                i++;
-                j--;
-            }
-        }
-        return i;
-    }
-
-    visualizeQuickSort() {
-        this.setState({
-            stateArray : [],
-        });
-        var currentArray = JSON.parse(JSON.stringify(this.state.bars));
-        this.quickSort(currentArray, 0, currentArray.length-1);
-        var speed = this.state.speed.current.value;
-        var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
-        var currentAction = this.state.actionCount;
-        for (let i = 0; i < barStates.length; i++) {
-            setTimeout(() => {
-                if (currentAction> this.state.clearedActions) {
-                    this.setState({bars: barStates[i]});
-                }
-                
-                }, speed * i+1);
-        }
-    }
 
     setBubble() {
         this.setState({
@@ -192,30 +150,6 @@ class BarSort extends React.Component {
         this.setState({
             currentAlgo: 'heap',
         });
-    }
-
-    quickSort(array, left, right) {
-            var index;
-            this.state.stateArray.push(JSON.parse(JSON.stringify(array)));
-            if (array.length > 1) {
-                index = this.partition(array, left, right); //index returned from partition
-
-                for (let j =0; j<index;j++){
-                    array[j].action = 0;
-                }
-                array[index].action = 1;
-
-                for (let j = index+1; j< array.length; j++){
-                    array[j].action = 0;
-                }
-                if (left < index - 1) { //more elements on the left side of the pivot
-                    this.quickSort(array, left, index - 1);
-                }
-                if (index < right) { //more elements on the right side of the pivot
-                    this.quickSort(array, index, right);
-                }
-            }
-            return array;
     }
 
     render(){
