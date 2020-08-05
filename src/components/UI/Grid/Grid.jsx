@@ -232,7 +232,6 @@ export default class PathGrid extends Component {
                       row,
                       col,
                       isFinish, isStart, isVisited
-                      //isWall 
                     } = node;
                     return (
                       <Node
