@@ -6,7 +6,7 @@ import bfs from '../../PathAlgorithms/bfs';
 import dfs from '../../PathAlgorithms/dfs';
 import Button from 'react-bootstrap/Button';
 
-export default class PathGrid extends Component {
+export default class Grid extends Component {
   constructor() {
     super();
     this.state = {
