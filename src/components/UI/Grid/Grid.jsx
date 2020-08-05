@@ -183,6 +183,16 @@ Description of module:
     }
   }
 
+
+/*
+--------------------------------------------------------------------------------------------
+Name: setBfs(), setDijk(), setDfs()
+Variables: 
+Functions called:
+Description of module:
+  Functions responsible for setting the current algorithm for path finding.
+-----------------------------------------------------------------------------------------------
+*/
   setBfs() {
     this.setState({
       currentAlgo: 'bfs',
@@ -198,20 +208,20 @@ Description of module:
       currentAlgo: 'dfs',
     });
   }
-  setGreedy() {
-    this.setState({
-      currentAlgo: 'greedy',
-    });
-  }
-  setAstar() {
-    this.setState({
-      currentAlgo: 'a',
-    });
-  }
 
+
+  /*
+--------------------------------------------------------------------------------------------
+Name: handleMouseDown()
+Variables: 
+Functions called:
+  - clear()
+  - refresh()
+Description of module:
+  Event handler for when user picks start and end nodes.
+-----------------------------------------------------------------------------------------------
+*/
   handleMouseDown(row, col) {
-    console.log("Row:", row)
-    console.log("Column:", col)
     if (this.state.isStartNode === true) {
       this.clear();
       // eslint-disable-next-line
@@ -231,6 +241,16 @@ Description of module:
     this.refresh();
   }
 
+/*
+--------------------------------------------------------------------------------------------
+Name: refresh()
+Variables: 
+  - clearGrid: blank starting grid
+Functions called:
+Description of module:
+  Refreshes the current state of the grid after picking start and end tiles (renders them to screen)
+-----------------------------------------------------------------------------------------------
+*/
   refresh() {
     const clearGrid = this.getStartGrid();
     this.setState({

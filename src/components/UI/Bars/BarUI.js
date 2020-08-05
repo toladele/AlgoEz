@@ -25,6 +25,19 @@ class BarUI extends React.Component {
         }
     }
 
+    /*
+--------------------------------------------------------------------------------------------
+Name: generateBars()
+Variables: 
+  -barCount: the amount of graphs to be rendered for sorting
+  -barList: list of bars
+  -valList: list of bar values
+Functions called:
+Description of module:
+  Get the user inputted amount of graphs to be rendered and render them to the screen
+-----------------------------------------------------------------------------------------------
+*/
+
     generateBars() {
         const barCount = this.state.inputQty.current.value;
         this.setState({
@@ -53,6 +66,15 @@ class BarUI extends React.Component {
 
     }
 
+/*
+--------------------------------------------------------------------------------------------
+Name: clear()
+Variables: 
+Functions called:
+Description of module:
+  Empty the list of bars and clear them from the screen
+-----------------------------------------------------------------------------------------------
+*/
     clear() {
         this.setState({
             bars: [],
@@ -62,6 +84,22 @@ class BarUI extends React.Component {
         console.log(this.state.clearedActions);
     }
 
+    /*
+--------------------------------------------------------------------------------------------
+Name: visualizeSort()
+Variables: 
+  -barStates: the amount of graphs to be rendered for sorting
+  -algo: which algorithm is currently used: bubble, heap, sort
+  -bars: current list of bars to be sorted
+  -speed: user inputted speed for sorting animation
+Functions called:
+    - bubbleSort()
+    - quickSort()
+    - heapSort()
+Description of module:
+    Function responsible for animating the sorting procedure
+-----------------------------------------------------------------------------------------------
+*/
     visualizeSort() {
         var barStates;
         var algo = this.state.currentAlgo;
@@ -90,6 +128,15 @@ class BarUI extends React.Component {
         }
     }
 
+    /*
+--------------------------------------------------------------------------------------------
+Name: setBubble(), setQuick(), setHeap()
+Variables: 
+Functions called:
+Description of module:
+  Functions responsible for setting the current algorithm for sorting.
+-----------------------------------------------------------------------------------------------
+*/
     setBubble() {
         this.setState({
             currentAlgo: 'bubble',
