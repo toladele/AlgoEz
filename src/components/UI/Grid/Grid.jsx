@@ -20,12 +20,11 @@ export default class PathGrid extends Component {
       start_node_col: 20,
       finish_node_row: 10,
       finish_node_col: 30
-      //onMousePressed: false,
     };
   }
 
   componentDidMount() {
-    const grid = getStartGrid();
+    const grid = this.getStartGrid();
     this.setState({ grid });
   }
 
@@ -72,12 +71,14 @@ export default class PathGrid extends Component {
 
   visualize() {
     // grid, startnode, finishnode 
-
+    if (this.state.start_node_col === null) {
+      return;
+    }
     const { grid } = this.state;
     // eslint-disable-next-line
     this.state.actionCount++;
-    const startNode = grid[this.this.state.start_node_row][this.this.state.start_node_col];
-    const finishNode = grid[this.this.state.finish_node_row][this.this.state.finish_node_col];
+    const startNode = grid[this.state.start_node_row][this.state.start_node_col];
+    const finishNode = grid[this.state.finish_node_row][this.state.finish_node_col];
     //call the dikes algorithm 
     var algo = this.state.currentAlgo;
     var visitedNodesInOrder;
@@ -105,17 +106,25 @@ export default class PathGrid extends Component {
   }
 
   clear() {
-    const clearGrid = getStartGrid();
+    const clearGrid = this.getStartGrid();
     this.setState({
       grid: clearGrid,
       clearedActions: this.state.actionCount
     });
+    // eslint-disable-next-line
+    this.state.start_node_col = null;
+          // eslint-disable-next-line
+    this.state.start_node_row = null;
+          // eslint-disable-next-line
+    this.state.finish_node_col = null;
+          // eslint-disable-next-line
+    this.state.finish_node_row = null;
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 45; col++) {
-        if (row === this.this.state.start_node_row && col === this.this.state.start_node_col) {
+        if (row === this.state.start_node_row && col === this.state.start_node_col) {
           document.getElementById(`node-${row}-${col}`).className =
             'node start-node';
-        } else if (row === this.this.state.finish_node_row && col === this.this.state.finish_node_col) {
+        } else if (row === this.state.finish_node_row && col === this.state.finish_node_col) {
           document.getElementById(`node-${row}-${col}`).className =
             'node finish-node';
         } else {
@@ -155,6 +164,43 @@ export default class PathGrid extends Component {
   handleMouseDown(row, col) {
     console.log("Row:", row)
     console.log("Column:", col)
+    if (this.state.isStartNode === true) {
+      this.clear();
+      // eslint-disable-next-line
+      this.state.start_node_row = row;
+      // eslint-disable-next-line
+      this.state.start_node_col = col;
+      // eslint-disable-next-line
+      this.state.isStartNode = false;
+    } else {
+      // eslint-disable-next-line
+      this.state.finish_node_row = row;
+      // eslint-disable-next-line
+      this.state.finish_node_col = col;
+      // eslint-disable-next-line
+      this.state.isStartNode = true;
+    }
+    this.refresh();
+  }
+
+  refresh() {
+    const clearGrid = this.getStartGrid();
+    this.setState({
+      grid: clearGrid,
+      clearedActions: this.state.actionCount,
+     });
+    for (let row = 0; row < 20; row++) {
+      for (let col = 0; col < 45; col++) {
+        if (row === this.state.start_node_row && col === this.state.start_node_col) {
+          document.getElementById(`node-${row}-${col}`).className =
+            'node start-node';
+        }
+        if (row === this.state.finish_node_row && col === this.state.finish_node_col) {
+          document.getElementById(`node-${row}-${col}`).className =
+            'node finish-node';
+        } 
+      }
+    }
   }
 
 
@@ -199,8 +245,9 @@ export default class PathGrid extends Component {
                         isVisited={isVisited}
                       // isWall={isWall}
                       //  onMousePressed={onMousePressed}
-                        onMouseDown={(row, col) => this.handleMouseDown(row, col)}
-                      // }
+                      onMouseDown={(row, col) => 
+                        this.handleMouseDown(row, col)
+                      }                      // }
                       // onMouseEnter={(row, col) => ({})
                       //   //  this.handleMouseEnter(row, col)
                       // }
@@ -220,27 +267,31 @@ export default class PathGrid extends Component {
     );
 
   }
-}
 
-const createNode = (col, row) => {
-  return {
-    col,
-    row,
-    isStart: row === this.this.state.start_node_row && col === this.this.state.start_node_col,
-    isFinish: row === this.this.state.finish_node_row && col === this.this.state.finish_node_col,
-    distance: Infinity,
-    isVisited: false
+  createNode = (col, row) => {
+    var start_row = this.state.start_node_row;
+    var start_col = this.state.start_node_col;
+    var finish_col = this.state.finish_node_col;
+    var finish_row = this.state.finish_node_row;
+    return {
+      col,
+      row,
+      isStart: row === start_row && col === start_col,
+      isFinish: row === finish_row && col === finish_col,
+      distance: Infinity,
+      isVisited: false
+    };
   };
-};
-
-const getStartGrid = () => {
-  const grid = [];
-  for (let row = 0; row < 20; row++) {
-    const currentRow = [];
-    for (let col = 0; col < 45; col++) {
-      currentRow.push(createNode(col, row));
+  
+  getStartGrid = () => {
+    const grid = [];
+    for (let row = 0; row < 20; row++) {
+      const currentRow = [];
+      for (let col = 0; col < 45; col++) {
+        currentRow.push(this.createNode(col, row));
+      }
+      grid.push(currentRow);
     }
-    grid.push(currentRow);
-  }
-  return grid;
-}; 
+    return grid;
+  }; 
+}
