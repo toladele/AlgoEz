@@ -63,12 +63,6 @@ class BarSort extends React.Component {
         });
         console.log(this.state.clearedActions);
     }
-    
-    swap(array, idx1, idx2) {
-        var temp = array[idx1];
-        array[idx1] = array[idx2];
-        array[idx2] = temp;
-    }
 
     visualizeSort() {
         var barStates;
@@ -95,44 +89,6 @@ class BarSort extends React.Component {
                 }
                 
               }, speed * i+1);
-        }
-    }
-
-    merge_sort_aux(arr1, arr2) {
-        var arr_final = [];
-          while (arr1.length !== 0 && arr2.length !== 0) {
-        
-            if (arr1[0] <= arr2[0]) {
-
-                arr_final.push(arr1[0]);
-                arr1 = arr1.slice(1);
-                //slice to get single elements to compare  
-            }
-            else {
-
-                arr_final.push(arr2[0]);
-                arr2 = arr2.slice(1)
-            }
-        }
-        while (arr1.length)
-            arr_final.push(arr1.shift());
-        while (arr2.length)
-            arr_final.push(arr2.shift());
-        return arr_final;
-    }
-
-    merge_sort(a) {
-        if (a.length <= 1) {
-
-            return a;
-        }
-        else {
-            var mid = parseInt(a.length / 2);
-            var arr1 = a.slice(0, mid);
-            var arr2 = a.slice(mid, a.length);
-
-            return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
-            //recursive call
         }
     }
 
