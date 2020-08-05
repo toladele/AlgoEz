@@ -140,7 +140,7 @@ class BarUI extends React.Component {
                                         <div className="controlArea">
                                             <center>
                                             <p className="rangeText">Slow</p>  
-                                            <Form.Control ref={this.state.speed} className="speedControl" type="range" min="20" max="2000" step="10"/>                            
+                                            <Form.Control ref={this.state.speed} className="speedControl" type="range" min="5" max="2000" step="5"/>                            
                                             <p className="rangeText">Fast</p>
                                             <Button className="rangeText" onClick={this.visualizeSort.bind(this)}>Sort</Button>
                                             
