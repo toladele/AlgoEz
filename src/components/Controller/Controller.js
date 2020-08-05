@@ -1,7 +1,7 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import BarSort from '../BarSort/BarSort';
-import PathGrid from '../PathGrid/PathGrid';
+import BarUI from '../UI/Bars/BarUI';
+import Grid from '../UI/Grid/Grid';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 class Controller extends React.Component {
@@ -53,7 +53,7 @@ class Controller extends React.Component {
                     
                         </div>
                         <br/>
-                        <PathGrid/>
+                        <Grid/>
                     </div>
                     
                 );
@@ -70,7 +70,7 @@ class Controller extends React.Component {
                             
                         </div>
                         <br/>
-                        <BarSort max={1000}/>
+                        <BarUI max={1000}/>
 
                     </div>
                     

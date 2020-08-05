@@ -4,6 +4,7 @@ import Bar from './Bar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import heapSort from '../../SortingAlgorithms/heapSort'
 
 class BarSort extends React.Component {
 
@@ -196,11 +197,12 @@ class BarSort extends React.Component {
             return;
         }
         else if (algo === 'heap') {
-            barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
+            barStates = heapSort(JSON.parse(JSON.stringify(this.state.bars)));
         }
         else { //binary
             //Just put this here to test out heapsort
-            barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
+            //barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
+            barStates = this.bubbleSort();
         }
 
         var speed = this.state.speed.current.value;
@@ -364,7 +366,7 @@ class BarSort extends React.Component {
                     <Button className= "algoButton" variant="dark" onClick={this.setQuick.bind(this)}>Q U I C K</Button>
                     {/* <Button className= "algoButton" variant="dark" onClick={this.setMerge.bind(this)} >M E R G E</Button>                     */}
                     <Button className= "algoButton" variant="dark" onClick={this.setHeap.bind(this)}>H E A P</Button>
-                    <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L EE</Button>                    
                     {/* <Button className= "algoButton" variant="dark" onClick={this.setBinary.bind(this)}>B I N A R Y</Button> */}
                 </center>
                     <br/>

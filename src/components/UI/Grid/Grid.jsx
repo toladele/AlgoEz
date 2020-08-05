@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import '../Bars/node_modules/bootstrap/dist/css/bootstrap.min.css';
+//import '../Bars/node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
 import './Grid.css';
 import dijkstra from '../../PathAlgorithms/dijkstra';
