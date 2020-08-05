@@ -1,6 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../BarSort/BarSort.css'
+import './BarUI.css'
 //import { NavDropdown, Navbar, Nav } from 'react-bootstrap';
 
 

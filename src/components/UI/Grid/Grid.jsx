@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import '../Bars/node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
-import './PathGrid.css';
-import dijkstra from '../pathAlgo/dijkstra';
-import bfs from '../pathAlgo/bfs';
-import dfs from '../pathAlgo/dfs';
+import './Grid.css';
+import dijkstra from '../../PathAlgorithms/dijkstra';
+import bfs from '../../PathAlgorithms/bfs';
+import dfs from '../../PathAlgorithms/dfs';
 import Button from 'react-bootstrap/Button';
 
 export default class PathGrid extends Component {
@@ -31,32 +31,42 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    /*
+    var currentAction = this.state.actionCount;
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
+
       setTimeout(() => {
-        const node = visitedNodesInOrder[i];
-        const newGrid = this.state.grid.slice();
-        const newNode = {
-          ...node,
-          isVisited: true,
-        };
-        newGrid[node.row][node.col] = newNode;
-        this.setState({ grid: newGrid });
-      }, 40 * i);
+        if (currentAction > this.state.clearedActions) {
+          const node = visitedNodesInOrder[i];
+          document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node visited-node';
+        }
+
+      }, 20 * i);
     }
-    */
-   var currentAction = this.state.actionCount;
-   for (let i = 0; i < visitedNodesInOrder.length; i++) {
-    
-    setTimeout(() => {
-      if (currentAction > this.state.clearedActions){
-        const node = visitedNodesInOrder[i];
-        document.getElementById(`node-${node.row}-${node.col}`).className =
-        'node visited-node';
-      }
-      
-    }, 20 * i);
   }
+
+  animateBfs(visitedNodesInOrder) {
+    var currentAction = this.state.actionCount;
+    for (let i = 0; i < visitedNodesInOrder.length; i++) {
+
+      setTimeout(() => {
+        if (currentAction > this.state.clearedActions) {
+          const node = visitedNodesInOrder[i];
+          if (i%3===0){
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node animate-one-node';
+          }
+          else if (i%3===1){
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node animate-two-node';
+          } else {
+            document.getElementById(`node-${node.row}-${node.col}`).className =
+            'node visited-node';
+          }         
+        }
+
+      }, 4 * i);
+    }
   }
 
 
@@ -87,7 +97,11 @@ export default class PathGrid extends Component {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
     console.log(visitedNodesInOrder);
-    this.animateAlgo(visitedNodesInOrder);
+    if (algo === 'bfs') {
+      this.animateBfs(visitedNodesInOrder);
+    } else {
+      this.animateAlgo(visitedNodesInOrder);
+    }
   }
 
   clear() {
@@ -95,7 +109,7 @@ export default class PathGrid extends Component {
     this.setState({
       grid: clearGrid,
       clearedActions: this.state.actionCount
-     });
+    });
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 45; col++) {
         if (row === this.this.state.start_node_row && col === this.this.state.start_node_col) {
