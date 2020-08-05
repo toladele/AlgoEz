@@ -15,14 +15,13 @@ function heapSort(bars) {
         changeBarColours(bars, 0, i, 1, 1);
         pushAnimation(animations, bars);
 
-        swap(bars, 0, i);
+        [bars[0], bars[i]] = [bars[i], bars[0]];
         pushAnimation(animations, bars);
 
         //colour sorted bar blue and other bar yellow
         changeBarColours(bars, 0, i, 0, 2);
         pushAnimation(animations, bars);
         
-        swap(bars, 0, i);      
         heapify(bars, i, 0, animations);
     }
 
@@ -62,14 +61,13 @@ function heapify(bars, size, idx, animations) {
         changeBarColours(bars, idx, max, 1, 1);
         pushAnimation(animations, bars);
 
-        swap(bars, idx, max);
+        [bars[idx], bars[max]] = [bars[max], bars[idx]];
         pushAnimation(animations, bars);
 
         changeBarColours(bars, idx, max, 0, 0);
         pushAnimation(animations, bars);
 
-        swap(bars, idx, max);
-        heapify(bars, size, max, animations, bars);
+        heapify(bars, size, max, animations);
     }
 }
 
@@ -80,12 +78,6 @@ function changeBarColours(bars, barOneIdx, barTwoIdx, barOneColour, BarTwoColour
 
 function pushAnimation(animations, bars) {
     animations.push(JSON.parse(JSON.stringify(bars)));
-}
-
-function swap(array, idx1, idx2) {
-    var temp = array[idx1];
-    array[idx1] = array[idx2];
-    array[idx2] = temp;
 }
 
 export default heapSort;

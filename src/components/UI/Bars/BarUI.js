@@ -87,93 +87,6 @@ class BarSort extends React.Component {
         }
         return barStates;
     }
-
-    getHeapAnimations(array) {
-        const animations = [];
-        if (array.length <= 1) return array;
-        this.heapSort(array, animations);
-        return animations;
-    }
-    
-    heapSort(array, animations) {
-        var length = array.length;
-        var currentBars = JSON.parse(JSON.stringify(this.state.bars));
-        
-        //build heap
-        for (var i = Math.floor(length / 2); i >= 0; i -= 1)      {
-            this.heapify(array, length, i, animations, currentBars);
-        }
-        
-        //swap root with last index. Decrement array length. Then heapify starting from root. 
-        for (i = length - 1; i > 0; i--) {
-            //change colours of bars being swapped
-            this.changeBarColours(currentBars, 0, i, 1, 1);
-            this.pushAnimation(animations, currentBars);
-
-            this.swap(currentBars, 0, i);
-            this.pushAnimation(animations, currentBars);
-
-            //colour sorted bar blue and other bar yellow
-            this.changeBarColours(currentBars, 0, i, 0, 2);
-            this.pushAnimation(animations, currentBars);
-            
-            this.swap(array, 0, i);      
-            this.heapify(array, i, 0, animations, currentBars);
-        }
-
-        currentBars[0].action = 2;
-        this.pushAnimation(animations, currentBars);
-
-    } 
-    
-    heapify(array, size, idx, animations, currentBars) {
-        var left = 2 * idx + 1;
-        var right = 2 * idx + 2;
-        var max = idx;
-    
-        if (left < size && array[left].value > array[max].value) {
-            this.changeBarColours(currentBars, left, max, 1, 1);
-            this.pushAnimation(animations, currentBars);
-            
-            this.changeBarColours(currentBars, left, max, 0, 0);
-            this.pushAnimation(animations, currentBars);
-            
-            max = left;
-        }
-    
-        if (right < size && array[right].value > array[max].value) {
-            this.changeBarColours(currentBars, right, max, 1, 1);
-            this.pushAnimation(animations, currentBars);
-            
-            this.changeBarColours(currentBars, right, max, 0, 0);
-            this.pushAnimation(animations, currentBars);
-
-            max = right;
-        }
-    
-        if (max !== idx) {
-            this.changeBarColours(currentBars, idx, max, 1, 1);
-            this.pushAnimation(animations, currentBars);
-
-            this.swap(currentBars, idx, max);
-            this.pushAnimation(animations, currentBars);
-
-            this.changeBarColours(currentBars, idx, max, 0, 0);
-            this.pushAnimation(animations, currentBars);
-
-            this.swap(array, idx, max);
-            this.heapify(array, size, max, animations, currentBars);
-        }
-    }
-
-    changeBarColours(array, barOneIdx, barTwoIdx, barOneColour, BarTwoColour) {
-        array[barOneIdx].action = barOneColour;
-        array[barTwoIdx].action = BarTwoColour;
-    }
-
-    pushAnimation(animations, bars) {
-        animations.push(JSON.parse(JSON.stringify(bars)));
-    }
     
     swap(array, idx1, idx2) {
         var temp = array[idx1];
@@ -200,8 +113,6 @@ class BarSort extends React.Component {
             barStates = heapSort(JSON.parse(JSON.stringify(this.state.bars)));
         }
         else { //binary
-            //Just put this here to test out heapsort
-            //barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
             barStates = this.bubbleSort();
         }
 
@@ -218,8 +129,6 @@ class BarSort extends React.Component {
                 //console.log(barStates[i]);
               }, speed * i+1);
         }
-        
-        
     }
 
     merge_sort_aux(arr1, arr2) {
@@ -366,7 +275,7 @@ class BarSort extends React.Component {
                     <Button className= "algoButton" variant="dark" onClick={this.setQuick.bind(this)}>Q U I C K</Button>
                     {/* <Button className= "algoButton" variant="dark" onClick={this.setMerge.bind(this)} >M E R G E</Button>                     */}
                     <Button className= "algoButton" variant="dark" onClick={this.setHeap.bind(this)}>H E A P</Button>
-                    <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L EE</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L E</Button>                    
                     {/* <Button className= "algoButton" variant="dark" onClick={this.setBinary.bind(this)}>B I N A R Y</Button> */}
                 </center>
                     <br/>
