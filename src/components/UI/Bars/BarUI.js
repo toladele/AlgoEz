@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import heapSort from '../../SortingAlgorithms/heapSort';
 import bubbleSort from '../../SortingAlgorithms/bubbleSort';
+import quickSort from '../../SortingAlgorithms/quickSort';
 
 class BarSort extends React.Component {
 
@@ -82,8 +83,9 @@ class BarSort extends React.Component {
             barStates = this.visualizeMergeSort();
         }
         else if (algo === 'quick') {
-            this.visualizeQuickSort();
-            return;
+            //this.visualizeQuickSort();
+            //return;
+            barStates = quickSort(bars, 0, bars.length-1);
         }
         else if (algo === 'heap') {
             barStates = heapSort(bars);
