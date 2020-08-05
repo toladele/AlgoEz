@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import Node from './Node/Node'
-import './Grid.css';
-import dijkstra from '../../PathAlgorithms/dijkstra';
-import bfs from '../../PathAlgorithms/bfs';
-import dfs from '../../PathAlgorithms/dfs';
+import './PathGrid.css';
+import dijkstra from '../pathAlgo/dijkstra';
+import bfs from '../pathAlgo/bfs';
+import dfs from '../pathAlgo/dfs';
 import Button from 'react-bootstrap/Button';
 
 export default class PathGrid extends Component {
@@ -29,50 +30,38 @@ export default class PathGrid extends Component {
 
 
   animateAlgo(visitedNodesInOrder) {
-    var currentAction = this.state.actionCount;
+    /*
     for (let i = 0; i < visitedNodesInOrder.length; i++) {
-
       setTimeout(() => {
-        if (currentAction > this.state.clearedActions) {
-          const node = visitedNodesInOrder[i];
-          document.getElementById(`node-${node.row}-${node.col}`).className =
-            'node visited-node';
-        }
-
-      }, 20 * i);
+        const node = visitedNodesInOrder[i];
+        const newGrid = this.state.grid.slice();
+        const newNode = {
+          ...node,
+          isVisited: true,
+        };
+        newGrid[node.row][node.col] = newNode;
+        this.setState({ grid: newGrid });
+      }, 40 * i);
     }
+    */
+   var currentAction = this.state.actionCount;
+   for (let i = 0; i < visitedNodesInOrder.length; i++) {
+    
+    setTimeout(() => {
+      if (currentAction > this.state.clearedActions){
+        const node = visitedNodesInOrder[i];
+        document.getElementById(`node-${node.row}-${node.col}`).className =
+        'node visited-node';
+      }
+      
+    }, 20 * i);
   }
-
-  animateBfs(visitedNodesInOrder) {
-    var currentAction = this.state.actionCount;
-    for (let i = 0; i < visitedNodesInOrder.length; i++) {
-
-      setTimeout(() => {
-        if (currentAction > this.state.clearedActions) {
-          const node = visitedNodesInOrder[i];
-          if (i%3===0){
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-            'node animate-one-node';
-          }
-          else if (i%3===1){
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-            'node animate-two-node';
-          } else {
-            document.getElementById(`node-${node.row}-${node.col}`).className =
-            'node visited-node';
-          }         
-        }
-
-      }, 4 * i);
-    }
   }
 
 
   visualize() {
     // grid, startnode, finishnode 
-    if (this.state.start_node_col === null) {
-      return;
-    }
+
     const { grid } = this.state;
     // eslint-disable-next-line
     this.state.actionCount++;
@@ -97,27 +86,19 @@ export default class PathGrid extends Component {
       visitedNodesInOrder = bfs(grid, startNode, finishNode);
     }
     console.log(visitedNodesInOrder);
-    if (algo === 'bfs') {
-      this.animateBfs(visitedNodesInOrder);
-    } else {
-      this.animateAlgo(visitedNodesInOrder);
-    }
+    this.animateAlgo(visitedNodesInOrder);
   }
 
   clear() {
     const clearGrid = this.getStartGrid();
     this.setState({
       grid: clearGrid,
-      clearedActions: this.state.actionCount
-    });
-    // eslint-disable-next-line
-    this.state.start_node_col = null;
-          // eslint-disable-next-line
-    this.state.start_node_row = null;
-          // eslint-disable-next-line
-    this.state.finish_node_col = null;
-          // eslint-disable-next-line
-    this.state.finish_node_row = null;
+      clearedActions: this.state.actionCount,
+     });
+     this.state.start_node_col = null;
+     this.state.start_node_row = null;
+     this.state.finish_node_col = null;
+     this.state.finish_node_row = null;
     for (let row = 0; row < 20; row++) {
       for (let col = 0; col < 45; col++) {
         if (row === this.state.start_node_row && col === this.state.start_node_col) {
@@ -214,7 +195,8 @@ export default class PathGrid extends Component {
           <Button className="algoButton" variant="dark" onClick={this.setBfs.bind(this)}>B F S</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDijk.bind(this)} >D I J K S T R A</Button>
           <Button className="algoButton" variant="dark" onClick={this.setDfs.bind(this)}>D F S</Button>
-          {/* <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button> */}
+          {/* <Button className="algoButton" variant="dark" onClick={this.setGreedy.bind(this)} >G R E E D Y</Button>
+          <Button className="algoButton" variant="dark" onClick={this.setAstar.bind(this)}>A*</Button> */}
           <br />
           <Button className="gridControls" onClick={() => { this.visualize() }}>
             Visualize
@@ -231,6 +213,7 @@ export default class PathGrid extends Component {
                       row,
                       col,
                       isFinish, isStart, isVisited
+                      //isWall 
                     } = node;
                     return (
                       <Node
@@ -240,9 +223,18 @@ export default class PathGrid extends Component {
                         isFinish={isFinish}
                         isStart={isStart}
                         isVisited={isVisited}
-                      onMouseDown={(row, col) => 
-                        this.handleMouseDown(row, col)
-                      }                      // }
+                      // isWall={isWall}
+                      //  onMousePressed={onMousePressed}
+                        onMouseDown={(row, col) => 
+                          this.handleMouseDown(row, col)
+                        }
+                      // }
+                      // onMouseEnter={(row, col) => ({})
+                      //   //  this.handleMouseEnter(row, col)
+                      // }
+                      // onMouseUp={() => ({})
+                      //   // this.handleMouseUp()
+                      // }
                       >
                       </Node>
                     );
@@ -283,4 +275,7 @@ export default class PathGrid extends Component {
     }
     return grid;
   }; 
+
 }
+
+

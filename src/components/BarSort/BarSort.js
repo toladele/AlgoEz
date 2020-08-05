@@ -1,12 +1,9 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Bar from './Bar';
+import Bar from '../BarSort/Bar';
 import Card from 'react-bootstrap/Card';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import heapSort from '../../SortingAlgorithms/heapSort';
-import bubbleSort from '../../SortingAlgorithms/bubbleSort';
-import quickSort from '../../SortingAlgorithms/quickSort';
 
 class BarSort extends React.Component {
 
@@ -63,6 +60,119 @@ class BarSort extends React.Component {
         });
         console.log(this.state.clearedActions);
     }
+
+    bubbleSort() {
+        var barStates = [];
+        let currentArray = JSON.parse(JSON.stringify(this.state.bars));
+        //console.log(this.state.bars);
+        //console.log(currentArray);
+        for (let i = 0; i < this.state.count; i++) {
+            for (let j = 0; j < this.state.count - i - 1; j++) {
+                currentArray[j].action = 0;
+                if (currentArray[j].value > currentArray[j + 1].value) {
+                    currentArray[j].action = 1;
+                    currentArray[j + 1].action = 1;
+                    [currentArray[j].value, currentArray[j + 1].value] = [currentArray[j + 1].value, currentArray[j].value];
+                    for (let k = j + 2; k < this.state.count; k++) {
+                        currentArray[k].action = 0;
+                    }
+                    barStates.push(JSON.parse(JSON.stringify(currentArray)));
+                    for (let k = 0; k < j+1; k++){
+                        currentArray[k].action = 0;
+                    }
+                    //console.log(currentArray);
+                }
+            }
+        }
+        return barStates;
+    }
+
+    getHeapAnimations(array) {
+        const animations = [];
+        if (array.length <= 1) return array;
+        this.heapSort(array, animations);
+        return animations;
+    }
+    
+    heapSort(array, animations) {
+        var length = array.length;
+        var currentBars = JSON.parse(JSON.stringify(this.state.bars));
+        
+        //build heap
+        for (var i = Math.floor(length / 2); i >= 0; i -= 1)      {
+            this.heapify(array, length, i, animations, currentBars);
+        }
+        
+        //swap root with last index. Decrement array length. Then heapify starting from root. 
+        for (i = length - 1; i > 0; i--) {
+            //change colours of bars being swapped
+            this.changeBarColours(currentBars, 0, i, 1, 1);
+            this.pushAnimation(animations, currentBars);
+
+            this.swap(currentBars, 0, i);
+            this.pushAnimation(animations, currentBars);
+
+            //colour sorted bar blue and other bar yellow
+            this.changeBarColours(currentBars, 0, i, 0, 2);
+            this.pushAnimation(animations, currentBars);
+            
+            this.swap(array, 0, i);      
+            this.heapify(array, i, 0, animations, currentBars);
+        }
+
+        currentBars[0].action = 2;
+        this.pushAnimation(animations, currentBars);
+
+    } 
+    
+    heapify(array, size, idx, animations, currentBars) {
+        var left = 2 * idx + 1;
+        var right = 2 * idx + 2;
+        var max = idx;
+    
+        if (left < size && array[left].value > array[max].value) {
+            this.changeBarColours(currentBars, left, max, 1, 1);
+            this.pushAnimation(animations, currentBars);
+            
+            this.changeBarColours(currentBars, left, max, 0, 0);
+            this.pushAnimation(animations, currentBars);
+            
+            max = left;
+        }
+    
+        if (right < size && array[right].value > array[max].value) {
+            this.changeBarColours(currentBars, right, max, 1, 1);
+            this.pushAnimation(animations, currentBars);
+            
+            this.changeBarColours(currentBars, right, max, 0, 0);
+            this.pushAnimation(animations, currentBars);
+
+            max = right;
+        }
+    
+        if (max !== idx) {
+            this.changeBarColours(currentBars, idx, max, 1, 1);
+            this.pushAnimation(animations, currentBars);
+
+            this.swap(currentBars, idx, max);
+            this.pushAnimation(animations, currentBars);
+
+            this.changeBarColours(currentBars, idx, max, 0, 0);
+            this.pushAnimation(animations, currentBars);
+
+            this.swap(array, idx, max);
+            this.heapify(array, size, max, animations, currentBars);
+        }
+    }
+
+    changeBarColours(array, barOneIdx, barTwoIdx, barOneColour, BarTwoColour) {
+        array[barOneIdx].action = barOneColour;
+        array[barTwoIdx].action = BarTwoColour;
+    }
+
+    pushAnimation(animations, bars) {
+        animations.push(JSON.parse(JSON.stringify(bars)));
+    }
     
     swap(array, idx1, idx2) {
         var temp = array[idx1];
@@ -73,71 +183,45 @@ class BarSort extends React.Component {
     visualizeSort() {
         var barStates;
         var algo = this.state.currentAlgo;
-        // eslint-disable-next-line
-        this.state.actionCount+= 1;
-        var bars = JSON.parse(JSON.stringify(this.state.bars));
+        var count = this.state.actionCount + 1;
+        this.setState({
+            actionCount: count,
+        })
         if (algo === 'bubble') {
-            barStates = bubbleSort(bars);
+            barStates = this.bubbleSort();
+        }
+        else if (algo === 'merge') {
+            barStates = this.visualizeMergeSort();
         }
         else if (algo === 'quick') {
-            //this.visualizeQuickSort();
-            //return;
-            barStates = quickSort(bars, 0, bars.length-1);
+            this.visualizeQuickSort();
+            return;
         }
-        else { // heap
-            barStates = heapSort(bars);
+        else if (algo === 'heap') {
+            barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
+        }
+        else { //binary
+            //Just put this here to test out heapsort
+            barStates = this.getHeapAnimations(JSON.parse(JSON.stringify(this.state.bars)));
         }
 
         var speed = this.state.speed.current.value;
+        //console.log(barStates);
         var currentAction = JSON.parse(JSON.stringify(this.state.actionCount));
         for (let i = 0; i < barStates.length; i++) {
+            //console.log("In for");
             setTimeout(() => {
                 if (currentAction > this.state.clearedActions) {
                     this.setState({bars: barStates[i]});
                 }
                 
+                //console.log(barStates[i]);
               }, speed * i+1);
         }
-    }
-
-    merge_sort_aux(arr1, arr2) {
-        var arr_final = [];
-          while (arr1.length !== 0 && arr2.length !== 0) {
         
-            if (arr1[0] <= arr2[0]) {
-
-                arr_final.push(arr1[0]);
-                arr1 = arr1.slice(1);
-                //slice to get single elements to compare  
-            }
-            else {
-
-                arr_final.push(arr2[0]);
-                arr2 = arr2.slice(1)
-            }
-        }
-        while (arr1.length)
-            arr_final.push(arr1.shift());
-        while (arr2.length)
-            arr_final.push(arr2.shift());
-        return arr_final;
+        
     }
 
-    merge_sort(a) {
-        if (a.length <= 1) {
-
-            return a;
-        }
-        else {
-            var mid = parseInt(a.length / 2);
-            var arr1 = a.slice(0, mid);
-            var arr2 = a.slice(mid, a.length);
-
-            return this.merge_sort_aux(this.merge_sort(arr1), this.merge_sort(arr2));
-            //recursive call
-        }
-    }
- 
 
     partition(array, left, right) {
         var pivot = array[Math.floor((right + left) / 2)].value, //middle element
@@ -169,11 +253,13 @@ class BarSort extends React.Component {
         var barStates = JSON.parse(JSON.stringify(this.state.stateArray));
         var currentAction = this.state.actionCount;
         for (let i = 0; i < barStates.length; i++) {
+            //console.log("In for");
             setTimeout(() => {
                 if (currentAction> this.state.clearedActions) {
                     this.setState({bars: barStates[i]});
                 }
                 
+                //console.log(barStates[i]);
                 }, speed * i+1);
         }
     }
@@ -188,9 +274,19 @@ class BarSort extends React.Component {
             currentAlgo: 'quick',
         });
     }
+    setMerge() {
+        this.setState({
+            currentAlgo: 'merge',
+        });
+    }
     setHeap() {
         this.setState({
             currentAlgo: 'heap',
+        });
+    }
+    setBinary() {
+        this.setState({
+            currentAlgo: 'binary',
         });
     }
 
@@ -230,8 +326,10 @@ class BarSort extends React.Component {
                 <div className="sortDiv">
                 <center>
                     <Button className= "algoButton" variant="dark" onClick={this.setQuick.bind(this)}>Q U I C K</Button>
+                    <Button className= "algoButton" variant="dark" onClick={this.setMerge.bind(this)} >M E R G E</Button>                    
                     <Button className= "algoButton" variant="dark" onClick={this.setHeap.bind(this)}>H E A P</Button>
                     <Button className= "algoButton" variant="dark" onClick={this.setBubble.bind(this)} >B U B B L E</Button>                    
+                    <Button className= "algoButton" variant="dark" onClick={this.setBinary.bind(this)}>B I N A R Y</Button>
                 </center>
                     <br/>
                 <Card>
