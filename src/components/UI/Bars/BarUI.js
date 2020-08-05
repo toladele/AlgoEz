@@ -8,7 +8,7 @@ import heapSort from '../../SortingAlgorithms/heapSort';
 import bubbleSort from '../../SortingAlgorithms/bubbleSort';
 import quickSort from '../../SortingAlgorithms/quickSort';
 
-class BarSort extends React.Component {
+class BarUI extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +20,6 @@ class BarSort extends React.Component {
             bars: [],
             speed: React.createRef(),
             currentAlgo: 'quick',
-            stateArray: [],
             actionCount: 0,
             clearedActions: 0
         }
@@ -57,7 +56,6 @@ class BarSort extends React.Component {
     clear() {
         this.setState({
             bars: [],
-            stateArray: [],
             clear: true,
             clearedActions: this.state.actionCount
         });
@@ -175,4 +173,4 @@ class BarSort extends React.Component {
         }
     }
     
-    export default BarSort;
+    export default BarUI;
